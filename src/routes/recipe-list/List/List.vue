@@ -48,7 +48,7 @@ export default defineComponent({
     ];
 
     const addRecipe = () => {
-      router.push({ name: "Recipe" });
+      router.push({ name: "AddRecipe" });
     };
     return { recipes, addRecipe };
   },

@@ -7,9 +7,22 @@ export interface RecipeState {
 export interface Recipe {
   id: number;
   name: string;
-  url: string;
-  rating: string;
+  recipeUrl: string;
+  rating: number;
   dates: Array<string>
   ingredients: Array<NameId>,
-  note: string
+  notes: string,
+  source: SourceKey,
+  bookTitle: string,
+  bookPage: string,
+  bookAuthors: string,
+  comment: string,
 }
+
+export interface SourceOption {
+  key: SourceKey;
+  name: string;
+}
+
+export type SourceKey = 'link' | 'book' | 'other'
+

@@ -15,6 +15,14 @@ const routes: Array<RouteRecordRaw> = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "recipe" */ "./recipe/Recipe"),
   },
+  {
+    path: "/recipe/add",
+    name: "AddRecipe",
+    // route level code-splitting
+    // this generates a separate chunk (recipe.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "recipeForm" */ "./recipe/RecipeForm"),
+  },
 ];
 
 const router = createRouter({
