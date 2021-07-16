@@ -1,4 +1,8 @@
 import { MutationTree } from "vuex";
-import { RecipeListState } from "./types";
+import { RecipeListState, RecipeListElement } from './types';
 
-export const mutations: MutationTree<RecipeListState> = {};
+export const mutations: MutationTree<RecipeListState> = {
+    updateRecipesList(state, payload: RecipeListElement[]) {
+        state.recipes = payload
+    }
+};

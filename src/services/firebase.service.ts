@@ -19,9 +19,12 @@ Firebase.initializeApp(firebaseConfig)
 const db = Firebase.database()
 const auth = Firebase.auth()
 
+// refs
+const recipesRef = db.ref("/recipes");
+
 
 // export utils/refs
 export {
-  db,
+  recipesRef,
   auth
 }
