@@ -9,7 +9,7 @@ export interface Recipe {
   name: string;
   recipeUrl: string;
   rating: number;
-  dates: Array<string>
+  dates: Array<number>
   ingredients: Array<NameId>,
   notes: string,
   source: SourceKey,

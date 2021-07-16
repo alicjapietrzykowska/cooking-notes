@@ -7,7 +7,7 @@
 
     <div class="p-field p-col-4">
       <label for="url">Dates of recipe use</label>
-      <Calendar v-model="form.dates" selectionMode="multiple" />
+      <Calendar v-model="selectedDates" selectionMode="multiple" />
     </div>
     <div class="p-field p-col-2">
       <label for="rating">Rating</label>
@@ -46,6 +46,7 @@ import router from "@/routes";
 import RecipeSource from "../RecipeForm/RecipeSource";
 import { Recipe } from "../store/types";
 import RecipeIngredients from "./RecipeIngredients";
+import { useStore } from "vuex";
 
 export default defineComponent({
   components: {
@@ -58,9 +59,10 @@ export default defineComponent({
     RecipeIngredients,
   },
   setup() {
+    const store = useStore();
+    const selectedDates = ref([]);
     const form: Partial<Recipe> = reactive({
       name: "",
-      dates: [],
       notes: "",
       rating: 1,
       ingredients: [],
@@ -68,8 +70,14 @@ export default defineComponent({
 
     const allIngredients = ref([]);
 
+    const selectedDatesAsTimestamps = () => {
+      return selectedDates.value.map((date) => new Date(date).getTime());
+    };
+
     const submitForm = () => {
-      console.log(form);
+      form.dates = selectedDatesAsTimestamps();
+      //TODO: Add validation for dates and text fields
+      store.dispatch("recipe/createRecipe", form);
     };
 
     const backToList = () => {
@@ -78,12 +86,12 @@ export default defineComponent({
 
     const updateForm = (values: Partial<Recipe>) => {
       Object.assign(form, values);
-      console.log(form);
     };
 
     return {
       form,
       allIngredients,
+      selectedDates,
       submitForm,
       backToList,
       updateForm,

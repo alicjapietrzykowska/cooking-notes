@@ -42,7 +42,7 @@ export default defineComponent({
 
     const updateForm = () => {
       const chosenIngredients = {
-        ingredient: selectedIngredients.value,
+        ingredients: selectedIngredients.value,
       };
       emit("update-ingredients", chosenIngredients);
     };
