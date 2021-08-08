@@ -1,10 +1,7 @@
-import { RecipeListState } from "@/routes/recipe-list/store/types";
-import { RecipeState } from "@/routes/recipe/store/types";
-
 export interface AppState {
   user?: User;
-  recipeList?: RecipeListState;
-  recipe?: RecipeState
+  activeRecipe?: Recipe;
+  recipeList: Recipe[];
 }
 
 export interface User {
@@ -14,8 +11,33 @@ export interface User {
   email: string;
 }
 
-
 export interface NameId {
-  name: string,
-  id: number
+  name: string;
+  id: number;
 }
+
+export interface RecipeState {
+  recipe?: Recipe;
+}
+
+export interface Recipe {
+  id: string;
+  name: string;
+  recipeUrl: string;
+  rating: number;
+  dates: Array<number>;
+  ingredients: Array<NameId>;
+  notes: string;
+  source: SourceKey;
+  bookTitle: string;
+  bookPage: string;
+  bookAuthors: string;
+  comment: string;
+}
+
+export interface SourceOption {
+  key: SourceKey;
+  name: string;
+}
+
+export type SourceKey = "link" | "book" | "other";

@@ -4,12 +4,12 @@ import List from "./recipe-list/List";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "List",
+    name: "list",
     component: List,
   },
   {
-    path: "/recipe",
-    name: "Recipe",
+    path: "/recipe/:id",
+    name: "recipe",
     // route level code-splitting
     // this generates a separate chunk (recipe.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -17,11 +17,21 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/recipe/add",
-    name: "AddRecipe",
+    name: "add-recipe",
     // route level code-splitting
     // this generates a separate chunk (recipe.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "recipeForm" */ "./recipe/RecipeForm"),
+    component: () =>
+      import(/* webpackChunkName: "recipeForm" */ "./recipe/RecipeForm"),
+  },
+  {
+    path: "/recipe/edit/:id",
+    name: "edit-recipe",
+    // route level code-splitting
+    // this generates a separate chunk (recipe.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "recipeForm" */ "./recipe/RecipeForm"),
   },
 ];
 

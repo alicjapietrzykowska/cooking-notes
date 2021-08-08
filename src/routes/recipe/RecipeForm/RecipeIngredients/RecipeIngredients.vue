@@ -22,11 +22,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, watch, PropType } from "vue";
 import MultiSelect from "primevue/multiselect";
 import InputText from "primevue/inputtext";
 import Button from "primevue/button";
-import { NameId } from "@/store/types";
+import { Recipe } from "@/store/types";
 
 export default defineComponent({
   components: {
@@ -34,11 +34,25 @@ export default defineComponent({
     Button,
     MultiSelect,
   },
+  props: {
+    recipe: {
+      type: Object as PropType<Recipe>,
+      required: false,
+    },
+  },
   emits: ["update-ingredients"],
   setup(props, { emit }) {
     const ingredient = ref<string>("");
-    const ingredients = ref<NameId[]>([]);
-    const selectedIngredients = ref<NameId[]>([]);
+    const ingredients = ref(props.recipe ? [...props.recipe.ingredients] : []);
+    const selectedIngredients = ref(props.recipe?.ingredients || []);
+    watch(
+      () => props.recipe,
+      () => {
+        if (!props.recipe) return;
+        ingredients.value = [...props.recipe.ingredients];
+        selectedIngredients.value = props.recipe.ingredients;
+      }
+    );
 
     const updateForm = () => {
       const chosenIngredients = {

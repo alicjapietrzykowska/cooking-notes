@@ -46,11 +46,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, Ref, ref, watch } from "vue";
+import {
+  defineComponent,
+  reactive,
+  Ref,
+  ref,
+  watch,
+  PropType,
+  computed,
+} from "vue";
 import RadioButton from "primevue/radiobutton";
-import { SourceOption } from "../../store/types";
 import InputText from "primevue/inputtext";
 import Textarea from "primevue/textarea";
+import { SourceOption, Recipe, AppState } from "@/store/types";
+import { useStore } from "vuex";
 
 export default defineComponent({
   components: {
@@ -58,8 +67,15 @@ export default defineComponent({
     InputText,
     Textarea,
   },
+  props: {
+    recipe: {
+      type: Object as PropType<Recipe>,
+      required: false,
+    },
+  },
   emits: ["update-source"],
   setup(props, { emit }) {
+    const store = useStore<AppState>();
     const sourceOptions: Ref<SourceOption[]> = ref([
       {
         name: "Link",
@@ -75,6 +91,8 @@ export default defineComponent({
       },
     ]);
 
+    const recipe = computed(() => store.state.activeRecipe);
+
     const initFormValues = {
       recipeUrl: "",
       bookTitle: "",
@@ -83,15 +101,25 @@ export default defineComponent({
       comment: "",
     };
 
-    const selectedSource = ref(sourceOptions.value[0]);
+    const getSource = () => {
+      return (
+        sourceOptions.value.find(
+          (option) => option.key === recipe?.value?.source
+        ) || sourceOptions.value[0]
+      );
+    };
 
+    const selectedSource = ref(getSource());
     //split object to create a new one and prevent from overriding initFormValues
-    const form = reactive({ ...initFormValues });
+    const form = reactive({ ...initFormValues, ...recipe.value });
+
+    watch(recipe, () => {
+      Object.assign(form, { ...recipe.value });
+      selectedSource.value = getSource();
+    });
 
     const changeSource = () => {
-      // Clear inputs connected to source and add source to the form
       Object.assign(form, {
-        ...initFormValues,
         source: selectedSource.value.key,
       });
     };

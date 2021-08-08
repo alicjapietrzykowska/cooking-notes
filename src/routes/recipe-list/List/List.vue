@@ -37,15 +37,15 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const recipes = computed(() => {
-      return store.state.recipeList.recipes;
+      return store.state.recipeList;
     });
 
     const addRecipe = () => {
-      router.push({ name: "AddRecipe" });
+      router.push({ name: "add-recipe" });
     };
 
     onMounted(() => {
-      store.dispatch("recipeList/fetchRecipes");
+      store.dispatch("fetchRecipes");
     });
 
     return { recipes, addRecipe };

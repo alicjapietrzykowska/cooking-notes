@@ -1,13 +1,29 @@
 <template>
-  <div>recipe</div>
+  <div>Recipe: {{ recipe?.name }}</div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { AppState } from "@/store/types";
+import { computed, defineComponent, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 
 export default defineComponent({
   setup() {
-    return {};
+    const store = useStore<AppState>();
+
+    const route = useRoute();
+    const recipeId = route.params.id;
+
+    const recipe = computed(() => store.state.activeRecipe);
+    onMounted(() => {
+      store.dispatch("fetchRecipeById", recipeId);
+    });
+
+    return {
+      recipeId,
+      recipe,
+    };
   },
 });
 </script>

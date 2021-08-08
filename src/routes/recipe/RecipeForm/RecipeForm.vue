@@ -19,7 +19,7 @@
     </div>
     <div class="p-field p-col-6">
       <label for="ingredients">Ingredients</label>
-      <RecipeIngredients @update-ingredients="updateForm" />
+      <RecipeIngredients @update-ingredients="updateForm" :recipe="recipe" />
     </div>
     <div class="p-field p-col-12">
       <label for="notes">Notes</label>
@@ -36,7 +36,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "vue";
+import {
+  defineComponent,
+  reactive,
+  ref,
+  computed,
+  onMounted,
+  watch,
+} from "vue";
 import InputText from "primevue/inputtext";
 import Textarea from "primevue/textarea";
 import Rating from "primevue/rating";
@@ -44,9 +51,10 @@ import Calendar from "primevue/calendar";
 import Button from "primevue/button";
 import router from "@/routes";
 import RecipeSource from "../RecipeForm/RecipeSource";
-import { Recipe } from "../store/types";
 import RecipeIngredients from "./RecipeIngredients";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
+import { Recipe } from "@/store/types";
 
 export default defineComponent({
   components: {
@@ -60,33 +68,52 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const route = useRoute();
+    const recipeId = route.params.id;
     const selectedDates = ref([]);
+    const recipe = computed(() => store.state.activeRecipe);
     const form: Partial<Recipe> = reactive({
       name: "",
       notes: "",
       rating: 1,
       ingredients: [],
     });
-
     const allIngredients = ref([]);
 
+    const updateForm = (values: Partial<Recipe>) => {
+      Object.assign(form, values);
+    };
+
+    watch(recipe, () => {
+      updateForm(recipe.value);
+      selectedDates.value = recipe.value.dates.map(
+        (date: Date) => new Date(date)
+      );
+    });
+
     const selectedDatesAsTimestamps = () => {
-      return selectedDates.value.map((date) => new Date(date).getTime());
+      return selectedDates.value?.map((date) => new Date(date).getTime());
     };
 
     const submitForm = () => {
       form.dates = selectedDatesAsTimestamps();
       //TODO: Add validation for dates and text fields
-      store.dispatch("recipe/createRecipe", form);
+      if (recipeId) {
+        store.dispatch("updateRecipe", { id: recipeId, ...form });
+      } else {
+        store.dispatch("createRecipe", form);
+      }
     };
 
     const backToList = () => {
-      router.push({ name: "List" });
+      router.push({ name: "list" });
     };
 
-    const updateForm = (values: Partial<Recipe>) => {
-      Object.assign(form, values);
-    };
+    onMounted(() => {
+      if (recipeId) {
+        store.dispatch("fetchRecipeById", recipeId);
+      }
+    });
 
     return {
       form,
@@ -95,6 +122,7 @@ export default defineComponent({
       submitForm,
       backToList,
       updateForm,
+      recipe,
     };
   },
 });

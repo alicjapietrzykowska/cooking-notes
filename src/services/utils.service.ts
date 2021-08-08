@@ -1,14 +1,16 @@
-import Firebase from 'firebase/app';
+import Firebase from "firebase/app";
 
-export function snapshotToArray(snapshot: Firebase.database.DataSnapshot) {
-    const returnArr: any = [];
+export function snapshotToArray<T>(
+  snapshot: Firebase.database.DataSnapshot
+): T[] {
+  const returnArr: T[] = [];
 
-    snapshot.forEach(function(childSnapshot) {
-        const item = childSnapshot.val();
-        item.id = childSnapshot.key;
+  snapshot.forEach(function (childSnapshot) {
+    const item = childSnapshot.val();
+    item.id = childSnapshot.key;
 
-        returnArr.push(item);
-    });
+    returnArr.push(item);
+  });
 
-    return returnArr;
-};
+  return returnArr;
+}
