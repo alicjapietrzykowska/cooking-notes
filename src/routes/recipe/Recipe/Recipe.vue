@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { AppState } from "@/store/types";
-import { computed, defineComponent, onMounted } from "vue";
+import { computed, defineComponent, onMounted, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 
@@ -18,6 +18,10 @@ export default defineComponent({
     const recipe = computed(() => store.state.activeRecipe);
     onMounted(() => {
       store.dispatch("fetchRecipeById", recipeId);
+    });
+
+    onUnmounted(() => {
+      store.dispatch("resetActiveRecipe");
     });
 
     return {

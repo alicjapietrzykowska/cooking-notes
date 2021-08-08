@@ -29,7 +29,7 @@
     <Button
       type="button"
       class="p-button p-button-outlined p-button-secondary"
-      label="Cancel"
+      label="Back"
       @click="backToList"
     />
   </form>
@@ -43,6 +43,7 @@ import {
   computed,
   onMounted,
   watch,
+  onUnmounted,
 } from "vue";
 import InputText from "primevue/inputtext";
 import Textarea from "primevue/textarea";
@@ -55,7 +56,6 @@ import RecipeIngredients from "./RecipeIngredients";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { Recipe } from "@/store/types";
-
 export default defineComponent({
   components: {
     InputText,
@@ -102,6 +102,7 @@ export default defineComponent({
         store.dispatch("updateRecipe", { id: recipeId, ...form });
       } else {
         store.dispatch("createRecipe", form);
+        backToList();
       }
     };
 
@@ -113,6 +114,10 @@ export default defineComponent({
       if (recipeId) {
         store.dispatch("fetchRecipeById", recipeId);
       }
+    });
+
+    onUnmounted(() => {
+      store.dispatch("resetActiveRecipe");
     });
 
     return {
