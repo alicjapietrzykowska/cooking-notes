@@ -16,12 +16,15 @@ export const actions: ActionTree<AppState, AppState> = {
       }
     );
   },
+  createRecipe(_ctx, payload: Partial<Recipe>) {
+    recipesRef.push(payload);
+  },
   updateRecipe(_ctx, payload: Partial<Recipe>) {
     if (!payload.id) return
     recipesRef.child(payload.id).update({...payload});
   },
-  createRecipe(_ctx, payload: Partial<Recipe>) {
-    recipesRef.push(payload);
+  removeRecipe(_ctx, recipeId: string) {
+    recipesRef.child(recipeId).remove();
   },
   fetchRecipeById({ commit }, recipeId: string) {
     recipesRef

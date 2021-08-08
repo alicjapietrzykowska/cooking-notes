@@ -29,8 +29,15 @@
       <Button
         icon="pi pi-trash"
         class="p-button-rounded p-button-danger p-button-outlined"
+        @click="showConfirmDialog = true"
       />
     </div>
+    <ConfirmDialog
+      v-if="showConfirmDialog"
+      v-model:visible="showConfirmDialog"
+      @close="showConfirmDialog = false"
+      @confirm="deleteRecipe"
+    />
   </div>
 </template>
 
@@ -38,10 +45,12 @@
 import { defineComponent, PropType, ref } from "vue";
 import Button from "primevue/button";
 import { SourceKey, Recipe } from "@/store/types";
+import { ConfirmDialog } from "@/components";
 
 export default defineComponent({
   components: {
     Button,
+    ConfirmDialog,
   },
   props: {
     recipe: {
@@ -49,15 +58,24 @@ export default defineComponent({
       type: Object as PropType<Recipe>,
     },
   },
-  setup(props) {
+  emits: ["remove-element"],
+  setup(props, { emit }) {
+    const showConfirmDialog = ref(false);
     const theLatestDate = props.recipe.dates
       ? Math.max(...props.recipe.dates)
       : "unknown";
     const recipeSource = ref<SourceKey>(props.recipe.source);
 
+    const deleteRecipe = () => {
+      showConfirmDialog.value = false;
+      emit("remove-element", props.recipe.id);
+    };
+
     return {
+      showConfirmDialog,
       recipeSource,
       theLatestDate,
+      deleteRecipe,
     };
   },
 });

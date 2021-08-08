@@ -11,6 +11,7 @@
           v-for="recipe of recipes"
           :key="recipe.id"
           :recipe="recipe"
+          @remove-element="removeRecipe"
         />
       </div>
       <NotFound v-else />
@@ -18,7 +19,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { computed, defineComponent, onMounted } from "vue";
 import SearchBar from "../SearchBar";
 import NotFound from "../NotFound";
@@ -44,11 +45,15 @@ export default defineComponent({
       router.push({ name: "add-recipe" });
     };
 
+    const removeRecipe = (id: string) => {
+      store.dispatch("removeRecipe", id);
+    };
+
     onMounted(() => {
       store.dispatch("fetchRecipes");
     });
 
-    return { recipes, addRecipe };
+    return { recipes, addRecipe, removeRecipe };
   },
 });
 </script>
