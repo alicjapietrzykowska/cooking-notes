@@ -4,11 +4,14 @@ export interface AppState {
   recipeList: Recipe[];
 }
 
+export interface Credentials {
+  email: string,
+  password: string
+}
+
 export interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
+  uid: string;
+  email: string | null;
 }
 
 export interface NameId {
@@ -41,3 +44,5 @@ export interface SourceOption {
 }
 
 export type SourceKey = "link" | "book" | "other";
+
+export type LoginDialogType = 'login' | 'register'

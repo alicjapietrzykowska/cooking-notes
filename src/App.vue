@@ -1,20 +1,28 @@
 <template>
   <Toast ref="toaster" />
-  <router-view />
+  <Layout />
 </template>
 
 <script lang="ts">
 import { ComponentPublicInstance, defineComponent, ref } from "vue";
 import Toast from "primevue/toast";
 import { init } from "@/services/toast.service";
+import { Layout } from "./components";
+import { useStore } from "vuex";
+import { AppState } from "@/store/types";
+import { getCurrentUser } from "@/store/getters";
 
 export default defineComponent({
   components: {
     Toast,
+    Layout,
   },
   setup() {
+    const store = useStore<AppState>();
     const toaster = ref<ComponentPublicInstance>();
     init(toaster);
+
+    store.dispatch("updateUser", getCurrentUser());
 
     return {
       toaster,
