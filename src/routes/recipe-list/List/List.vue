@@ -38,9 +38,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore<AppState>();
-    const recipes = computed(() => {
-      return store.state.recipeList;
-    });
+    const recipes = computed(() => store.state.recipeList);
     const user = computed(() => store.state.user);
 
     const addRecipe = () => {
@@ -56,7 +54,7 @@ export default defineComponent({
     });
 
     watch(user, () => {
-      if (user.value) store.dispatch("fetchRecipes");
+      store.dispatch("fetchRecipes");
     });
 
     return { recipes, addRecipe, removeRecipe };

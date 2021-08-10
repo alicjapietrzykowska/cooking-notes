@@ -1,37 +1,28 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import List from "./recipe-list/List";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "list",
-    component: List,
+    component: () => import("./recipe-list/List"),
+
   },
   {
     path: "/recipe/:id",
     name: "recipe",
-    // route level code-splitting
-    // this generates a separate chunk (recipe.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "recipe" */ "./recipe/Recipe"),
+    component: () => import("./recipe/Recipe"),
   },
   {
     path: "/recipe/add",
     name: "add-recipe",
-    // route level code-splitting
-    // this generates a separate chunk (recipe.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "recipeForm" */ "./recipe/RecipeForm"),
+      import("./recipe/RecipeForm"),
   },
   {
     path: "/recipe/edit/:id",
     name: "edit-recipe",
-    // route level code-splitting
-    // this generates a separate chunk (recipe.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "recipeForm" */ "./recipe/RecipeForm"),
+      import("./recipe/RecipeForm"),
   },
 ];
 

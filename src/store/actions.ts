@@ -3,14 +3,12 @@ import { AppState, Recipe, Credentials } from "./types";
 import { auth, recipesRef } from "@/services/firebase.service";
 import { snapshotToArray } from "@/services/utils.service";
 import { showToast } from '@/services/toast.service';
-import Firebase from "firebase/app";
-import { getCurrentUser, getCurrentUserId } from '@/store/getters';
+import router from '@/routes';
 
 export const actions: ActionTree<AppState, AppState> = {
-  createUser({commit}, payload: Credentials) {
+  createUser(_ctx, payload: Credentials) {
     auth.createUserWithEmailAndPassword(payload.email, payload.password)
-    .then((data) => {
-      commit('updateUser', data.user)
+    .then(() => {
       showToast({
         summary: "Successfully registered",
         detail: "Your account has been created",
@@ -18,10 +16,10 @@ export const actions: ActionTree<AppState, AppState> = {
     })
     .catch(error => console.error(error))
   },
-  loginUser({dispatch, commit}, payload: Credentials) {
+
+  loginUser({dispatch}, payload: Credentials) {
     auth.signInWithEmailAndPassword(payload.email, payload.password)
-    .then((data) => {
-      commit('updateUser', data.user)
+    .then(() => {
       dispatch('fetchRecipes')
       showToast({
         summary: "Successfully logged in",
@@ -30,17 +28,21 @@ export const actions: ActionTree<AppState, AppState> = {
     })
     .catch(error => console.error(error))
   },
+
+  logOutUser() {
+    router.push({name: 'list'})
+    auth.signOut()
+  },
+
   checkUser({commit}) {
-    auth.onAuthStateChanged(function(user) {
+    // Observer for changes to the user's sign-in state initialized in App.vue
+    auth.onAuthStateChanged((user) => {
       commit('updateUser', user)
     });
   },
-  logOutUser({commit}) {
-    auth.signOut()
-    commit('updateUser', undefined)
-  },
+
   fetchRecipes({state, commit }) {
-    const userId = getCurrentUser()?.uid
+    const userId = state.user?.uid
     if (userId) {
       recipesRef.child(userId).on(
         "value",
@@ -52,10 +54,12 @@ export const actions: ActionTree<AppState, AppState> = {
           console.error("Error: " + error);
         }
       );
+    } else {
+      commit("updateRecipesList", undefined);
     }
   },
-  createRecipe(_ctx, payload: Partial<Recipe>) {
-    const userId = getCurrentUserId()
+  createRecipe({state}, payload: Partial<Recipe>) {
+    const userId = state.user?.uid
     if (userId) {
       recipesRef.child(userId).push(payload);
       showToast({
@@ -64,8 +68,8 @@ export const actions: ActionTree<AppState, AppState> = {
       });
     } 
   },
-  updateRecipe(_ctx, payload: Partial<Recipe>) {
-    const userId = getCurrentUserId()
+  updateRecipe({state}, payload: Partial<Recipe>) {
+    const userId = state.user?.uid
     if (!payload.id || !userId) return
     recipesRef.child(userId).child(payload.id).update({...payload});
     showToast({
@@ -73,8 +77,8 @@ export const actions: ActionTree<AppState, AppState> = {
       detail: "Your changes has been saved",
     });
   },
-  removeRecipe(_ctx, recipeId: string) {
-    const userId = getCurrentUserId()
+  removeRecipe({state}, recipeId: string) {
+    const userId = state.user?.uid
     if (!recipeId || !userId) return
     recipesRef.child(userId).child(recipeId).remove();
     showToast({
@@ -82,8 +86,8 @@ export const actions: ActionTree<AppState, AppState> = {
       detail: "Your recipe had been removed",
     });
   },
-  fetchRecipeById({ commit }, recipeId: string) {
-    const userId = getCurrentUserId()
+  fetchRecipeById({ commit, state }, recipeId: string) {
+    const userId = state.user?.uid
     if (!recipeId || !userId) return
     recipesRef
     .child(userId)
