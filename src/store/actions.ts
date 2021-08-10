@@ -84,7 +84,6 @@ export const actions: ActionTree<AppState, AppState> = {
   },
   fetchRecipeById({ commit }, recipeId: string) {
     const userId = getCurrentUserId()
-    console.log('fetch Recipe', recipeId, userId)
     if (!recipeId || !userId) return
     recipesRef
     .child(userId)
