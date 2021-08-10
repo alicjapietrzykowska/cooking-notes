@@ -10,7 +10,6 @@ import { init } from "@/services/toast.service";
 import { Layout } from "./components";
 import { useStore } from "vuex";
 import { AppState } from "@/store/types";
-import { getCurrentUser } from "@/store/getters";
 
 export default defineComponent({
   components: {
@@ -22,7 +21,7 @@ export default defineComponent({
     const toaster = ref<ComponentPublicInstance>();
     init(toaster);
 
-    store.dispatch("updateUser", getCurrentUser());
+    store.dispatch("checkUser");
 
     return {
       toaster,

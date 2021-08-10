@@ -3,16 +3,21 @@
     :header="dialogType === 'login' ? 'Log in' : 'Create new account'"
     :modal="true"
   >
-    <div class="p-fluid p-formgrid p-grid">
+    <form class="p-fluid p-formgrid p-grid">
       <div class="p-field p-col-12">
         <label for="email">Email</label>
         <InputText id="email" type="email" v-model="email" />
       </div>
       <div class="p-field p-col-12">
         <label for="password">Password</label>
-        <Password id="password" v-model="password" toggleMask></Password>
+        <Password
+          id="password"
+          v-model="password"
+          toggleMask
+          :feedback="dialogType === 'register'"
+        ></Password>
       </div>
-    </div>
+    </form>
     <template #footer>
       <Button
         label="Cancel"

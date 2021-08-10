@@ -48,7 +48,7 @@ export default defineComponent({
     watch(
       () => props.recipe,
       () => {
-        if (!props.recipe) return;
+        if (!props.recipe || !props.recipe.ingredients) return;
         ingredients.value = [...props.recipe.ingredients];
         selectedIngredients.value = props.recipe.ingredients;
       }

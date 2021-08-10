@@ -20,13 +20,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from "vue";
+import { computed, defineComponent, onMounted, watch } from "vue";
 import SearchBar from "../SearchBar";
 import NotFound from "../NotFound";
 import ListElement from "../ListElement";
 import Button from "primevue/button";
 import router from "@/routes";
 import { useStore } from "vuex";
+import { AppState } from "@/store/types";
 
 export default defineComponent({
   components: {
@@ -36,10 +37,11 @@ export default defineComponent({
     Button,
   },
   setup() {
-    const store = useStore();
+    const store = useStore<AppState>();
     const recipes = computed(() => {
       return store.state.recipeList;
     });
+    const user = computed(() => store.state.user);
 
     const addRecipe = () => {
       router.push({ name: "add-recipe" });
@@ -51,6 +53,10 @@ export default defineComponent({
 
     onMounted(() => {
       store.dispatch("fetchRecipes");
+    });
+
+    watch(user, () => {
+      if (user.value) store.dispatch("fetchRecipes");
     });
 
     return { recipes, addRecipe, removeRecipe };

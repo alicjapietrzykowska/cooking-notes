@@ -55,7 +55,7 @@ import RecipeSource from "../RecipeForm/RecipeSource";
 import RecipeIngredients from "./RecipeIngredients";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
-import { Recipe } from "@/store/types";
+import { Recipe, AppState } from "@/store/types";
 export default defineComponent({
   components: {
     InputText,
@@ -67,11 +67,12 @@ export default defineComponent({
     RecipeIngredients,
   },
   setup() {
-    const store = useStore();
+    const store = useStore<AppState>();
     const route = useRoute();
     const recipeId = route.params.id;
-    const selectedDates = ref([]);
+    const selectedDates = ref<Date[]>([]);
     const recipe = computed(() => store.state.activeRecipe);
+    const user = computed(() => store.state.user);
     const form: Partial<Recipe> = reactive({
       name: "",
       notes: "",
@@ -85,10 +86,12 @@ export default defineComponent({
     };
 
     watch(recipe, () => {
+      if (!recipe.value) return;
       updateForm(recipe.value);
-      selectedDates.value = recipe.value.dates.map(
-        (date: Date) => new Date(date)
-      );
+      if (recipe.value.dates?.length)
+        selectedDates.value = recipe.value.dates.map(
+          (timestamp: number) => new Date(timestamp)
+        );
     });
 
     const selectedDatesAsTimestamps = () => {
@@ -110,10 +113,18 @@ export default defineComponent({
       router.push({ name: "list" });
     };
 
-    onMounted(() => {
+    const getRecipeDataById = () => {
       if (recipeId) {
         store.dispatch("fetchRecipeById", recipeId);
       }
+    };
+
+    onMounted(() => {
+      getRecipeDataById();
+    });
+
+    watch(user, () => {
+      if (user.value) getRecipeDataById();
     });
 
     onUnmounted(() => {
