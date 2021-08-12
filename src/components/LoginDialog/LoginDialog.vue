@@ -1,15 +1,15 @@
 <template>
   <Dialog
-    :header="dialogType === 'login' ? 'Log in' : 'Create new account'"
+    :header="dialogType === 'login' ? t('user.logIn') : t('user.createAccount')"
     :modal="true"
   >
     <form class="p-fluid p-formgrid p-grid">
       <div class="p-field p-col-12">
-        <label for="email">Email</label>
+        <label for="email">{{ t("user.email") }}</label>
         <InputText id="email" type="email" v-model="email" />
       </div>
       <div class="p-field p-col-12">
-        <label for="password">Password</label>
+        <label for="password">{{ t("user.password") }}</label>
         <Password
           id="password"
           v-model="password"
@@ -20,12 +20,14 @@
     </form>
     <template #footer>
       <Button
-        label="Cancel"
+        :label="t('common.cancel')"
         @click="$emit('close')"
         class="p-button-outlined"
       />
       <Button
-        :label="dialogType === 'login' ? 'Login' : 'Create account'"
+        :label="
+          dialogType === 'login' ? t('user.logIn') : t('user.createAccount')
+        "
         @click="manageConfirm"
         autofocus
       />
@@ -41,6 +43,7 @@ import InputText from "primevue/inputtext";
 import { useStore } from "vuex";
 import { AppState, Credentials } from "@/store/types";
 import Button from "primevue/button";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: {
@@ -76,6 +79,7 @@ export default defineComponent({
       email,
       password,
       manageConfirm,
+      ...useI18n(),
     };
   },
 });

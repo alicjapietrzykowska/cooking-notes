@@ -18,27 +18,27 @@
     </div>
     <div v-if="selectedSource.key === 'link'">
       <div class="p-field p-col-6">
-        <label for="url">Recipe url</label>
+        <label for="url">{{ t("recipe.url") }}</label>
         <InputText id="url" type="text" v-model="form.recipeUrl" />
       </div>
     </div>
     <div v-if="selectedSource.key === 'book'">
       <div class="p-field p-col-6">
-        <label for="title">Book title</label>
+        <label for="title">{{ t("recipe.book.title") }}</label>
         <InputText id="title" type="text" v-model="form.bookTitle" />
       </div>
       <div class="p-field p-col-6">
-        <label for="page">Book page</label>
+        <label for="page">{{ t("recipe.book.page") }}</label>
         <InputText id="page" type="text" v-model="form.bookPage" />
       </div>
       <div class="p-field p-col-6">
-        <label for="authors">Book author(s)</label>
+        <label for="authors">{{ t("recipe.book.authors") }}</label>
         <InputText id="authors" type="text" v-model="form.bookAuthors" />
       </div>
     </div>
     <div v-if="selectedSource.key === 'other'">
       <div class="p-field p-col-6">
-        <label for="comment">Comment</label>
+        <label for="comment">{{ t("recipe.comment") }}</label>
         <Textarea id="comment" type="text" v-model="form.comment" />
       </div>
     </div>
@@ -60,6 +60,7 @@ import InputText from "primevue/inputtext";
 import Textarea from "primevue/textarea";
 import { SourceOption, Recipe, AppState } from "@/store/types";
 import { useStore } from "vuex";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: {
@@ -133,6 +134,7 @@ export default defineComponent({
       sourceOptions,
       selectedSource,
       changeSource,
+      ...useI18n(),
     };
   },
 });

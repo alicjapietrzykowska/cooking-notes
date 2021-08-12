@@ -4,14 +4,15 @@ import { auth, recipesRef } from "@/services/firebase.service";
 import { snapshotToArray } from "@/services/utils.service";
 import { showToast } from '@/services/toast.service';
 import router from '@/routes';
+import { i18n } from "@/i18n";
 
 export const actions: ActionTree<AppState, AppState> = {
   createUser(_ctx, payload: Credentials) {
     auth.createUserWithEmailAndPassword(payload.email, payload.password)
     .then(() => {
       showToast({
-        summary: "Successfully registered",
-        detail: "Your account has been created",
+        summary: i18n.global.t('toasts.registered.summary'),
+        detail: i18n.global.t('toasts.registered.detail'),
       });
     })
     .catch(error => console.error(error))
@@ -22,8 +23,8 @@ export const actions: ActionTree<AppState, AppState> = {
     .then(() => {
       dispatch('fetchRecipes')
       showToast({
-        summary: "Successfully logged in",
-        detail: "Your has been logged in",
+        summary: i18n.global.t('toasts.loggedIn.summary'),
+        detail: i18n.global.t('toasts.loggedIn.detail'),
       });
     })
     .catch(error => console.error(error))
@@ -63,8 +64,8 @@ export const actions: ActionTree<AppState, AppState> = {
     if (userId) {
       recipesRef.child(userId).push(payload);
       showToast({
-        summary: "Successfully created recipe",
-        detail: "Your recipe has been saved",
+        summary: i18n.global.t('toasts.createdRecipe.summary'),
+        detail: i18n.global.t('toasts.createdRecipe.detail'),
       });
     } 
   },
@@ -73,8 +74,8 @@ export const actions: ActionTree<AppState, AppState> = {
     if (!payload.id || !userId) return
     recipesRef.child(userId).child(payload.id).update({...payload});
     showToast({
-      summary: "Successfully saved recipe",
-      detail: "Your changes has been saved",
+      summary: i18n.global.t('toasts.updatedRecipe.summary'),
+      detail: i18n.global.t('toasts.updatedRecipe.detail'),
     });
   },
   removeRecipe({state}, recipeId: string) {
@@ -82,8 +83,8 @@ export const actions: ActionTree<AppState, AppState> = {
     if (!recipeId || !userId) return
     recipesRef.child(userId).child(recipeId).remove();
     showToast({
-      summary: "Successfully removed recipe",
-      detail: "Your recipe had been removed",
+      summary: i18n.global.t('toasts.removedRecipe.summary'),
+      detail: i18n.global.t('toasts.removedRecipe.detail'),
     });
   },
   fetchRecipeById({ commit, state }, recipeId: string) {

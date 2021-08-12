@@ -2,19 +2,19 @@
   <div class="p-d-flex p-jc-between p-ai-baseline">
     <div>
       <h3>{{ recipe?.name }}</h3>
-      <div>Last made: {{ theLatestDate }}</div>
+      <div>{{ t("recipe.lastUsed") }}: {{ d(theLatestDate, "short") }}</div>
       <div>
-        Source:
+        {{ t("recipe.sourceLabel") }}:
         <a
           v-if="recipeSource === 'link'"
           :href="recipe.recipeUrl"
           target="_blank"
         >
-          {{ recipeSource }}
+          {{ t("recipe.source." + recipeSource) }}
         </a>
-        <span v-else>{{ recipeSource }}</span>
+        <span v-else> {{ t("recipe.source." + recipeSource) }} </span>
       </div>
-      <div>Rating: {{ recipe?.rating }}</div>
+      <div>{{ t("recipe.rating") }}: {{ recipe?.rating }}</div>
     </div>
     <div class="p-d-flex p-flex-column">
       <router-link :to="{ name: 'recipe', params: { id: recipe.id } }">
@@ -46,6 +46,7 @@ import { defineComponent, PropType, ref } from "vue";
 import Button from "primevue/button";
 import { SourceKey, Recipe } from "@/store/types";
 import { ConfirmDialog } from "@/components";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: {
@@ -76,6 +77,7 @@ export default defineComponent({
       recipeSource,
       theLatestDate,
       deleteRecipe,
+      ...useI18n(),
     };
   },
 });

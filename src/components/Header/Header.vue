@@ -1,21 +1,25 @@
 <template>
   <header>
-    <h1>Cooking Notes</h1>
+    <h1>{{ t("app.name") }}</h1>
     <div class="buttons-wrapper">
       <template v-if="!isLoggedIn">
         <Button
           class="p-mr-3"
-          label="Log in"
+          :label="t('user.logIn')"
           @click="$emit('open-dialog', 'login')"
         />
         <Button
           class="p-button-secondary"
-          label="Sign in"
+          :label="t('user.signIn')"
           @click="$emit('open-dialog', 'register')"
         />
       </template>
       <template v-else>
-        <Button class="p-button-secondary" label="Log out" @click="logOut" />
+        <Button
+          class="p-button-secondary"
+          :label="t('user.logOut')"
+          @click="logOut"
+        />
       </template>
     </div>
   </header>
@@ -26,6 +30,7 @@ import { defineComponent, computed } from "vue";
 import Button from "primevue/button";
 import { useStore } from "vuex";
 import { AppState } from "@/store/types";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: {
@@ -41,6 +46,7 @@ export default defineComponent({
     return {
       isLoggedIn,
       logOut,
+      ...useI18n(),
     };
   },
   emits: ["open-dialog", "log-out"],

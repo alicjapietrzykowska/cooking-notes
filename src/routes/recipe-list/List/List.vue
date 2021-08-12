@@ -1,7 +1,9 @@
 <template>
   <div class="p-grid">
     <div class="p-col-3">
-      <Button @click="addRecipe" class="btn btn-primary">Add recipe</Button>
+      <Button @click="addRecipe" class="btn btn-primary">
+        {{ t("recipe.add") }}
+      </Button>
       <SearchBar />
     </div>
 
@@ -28,6 +30,7 @@ import Button from "primevue/button";
 import router from "@/routes";
 import { useStore } from "vuex";
 import { AppState } from "@/store/types";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: {
@@ -57,7 +60,7 @@ export default defineComponent({
       store.dispatch("fetchRecipes");
     });
 
-    return { recipes, addRecipe, removeRecipe };
+    return { recipes, addRecipe, removeRecipe, ...useI18n() };
   },
 });
 </script>

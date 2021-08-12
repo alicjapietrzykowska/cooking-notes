@@ -1,35 +1,35 @@
 <template>
   <form @submit.prevent="submitForm" class="p-fluid p-formgrid p-grid">
     <div class="p-field p-col-6">
-      <label for="name">Recipe name *</label>
+      <label for="name">{{ t("recipe.name") }} *</label>
       <InputText id="name" type="text" v-model="form.name" />
     </div>
 
     <div class="p-field p-col-4">
-      <label for="url">Dates of recipe use</label>
+      <label for="url">{{ t("recipe.dates") }}</label>
       <Calendar v-model="selectedDates" selectionMode="multiple" />
     </div>
     <div class="p-field p-col-2">
-      <label for="rating">Rating</label>
+      <label for="rating">{{ t("recipe.rating") }}</label>
       <Rating v-model="form.rating" :cancel="false" />
     </div>
     <div class="p-field p-col-12">
-      <label for="source">Recipe source</label>
+      <label for="source">{{ t("recipe.sourceLabel") }}</label>
       <RecipeSource @update-source="updateForm" />
     </div>
     <div class="p-field p-col-6">
-      <label for="ingredients">Ingredients</label>
+      <label for="ingredients">{{ t("recipe.ingredients") }}</label>
       <RecipeIngredients @update-ingredients="updateForm" :recipe="recipe" />
     </div>
     <div class="p-field p-col-12">
-      <label for="notes">Notes</label>
+      <label for="notes">{{ t("recipe.notes") }}</label>
       <Textarea id="notes" v-model="form.notes" rows="4" />
     </div>
-    <Button type="submit" label="Submit" />
+    <Button type="submit" :label="t('common.submit')" />
     <Button
       type="button"
       class="p-button p-button-outlined p-button-secondary"
-      label="Back"
+      :label="t('common.back')"
       @click="backToList"
     />
   </form>
@@ -56,6 +56,7 @@ import RecipeIngredients from "./RecipeIngredients";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { Recipe, AppState } from "@/store/types";
+import { useI18n } from "vue-i18n";
 export default defineComponent({
   components: {
     InputText,
@@ -139,6 +140,7 @@ export default defineComponent({
       backToList,
       updateForm,
       recipe,
+      ...useI18n(),
     };
   },
 });

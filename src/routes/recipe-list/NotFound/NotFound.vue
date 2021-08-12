@@ -1,5 +1,5 @@
 <template>
-  <div>Not found</div>
+  <div>TODO: Not found page</div>
 </template>
 
 <script lang="ts">
