@@ -2,6 +2,16 @@
   <div class="p-card list-element p-mb-3">
     <div>
       <h3>{{ recipe?.name }}</h3>
+      <div class="p-mb-2 p-d-flex" v-if="rating">
+        <span class="p-text-bold p-mr-2">{{ t("recipe.rating") }}:</span>
+        <Rating
+          class="p-d-inline"
+          v-model="rating"
+          :stars="RATING_MAX"
+          :readonly="true"
+          :cancel="false"
+        />
+      </div>
       <div class="p-mb-2">
         <span class="p-text-bold">{{ t("recipe.lastUsed") }}:</span>
         {{ d(theLatestDate, "short") }}
@@ -10,7 +20,7 @@
         <span class="p-text-bold">{{ t("recipe.sourceLabel") }}: </span>
         <a
           v-if="recipeSource === 'link'"
-          :href="recipe.recipeUrl"
+          :href="`https://${recipe.recipeUrl}`"
           target="_blank"
         >
           <Badge :value="t('recipe.source.' + recipeSource)" class="p-mr-2" />
@@ -22,10 +32,6 @@
           class="p-mr-2"
           v-tooltip="recipe.bookTitle || recipe.comment"
         />
-      </div>
-      <div class="p-mb-2">
-        <span class="p-text-bold">{{ t("recipe.rating") }}:</span>
-        {{ recipe?.rating }} / {{ RATING_MAX }}
       </div>
     </div>
     <div class="settings">
@@ -61,6 +67,7 @@
       v-model:visible="showConfirmDialog"
       @close="showConfirmDialog = false"
       @confirm="deleteRecipe"
+      :text="t('recipe.deleteRecipeText')"
     />
   </div>
 </template>
@@ -74,12 +81,14 @@ import { useI18n } from "vue-i18n";
 import Badge from "primevue/badge";
 import Tooltip from "primevue/tooltip";
 import { RATING_MAX } from "@/static/data.config";
+import Rating from "primevue/rating";
 
 export default defineComponent({
   components: {
     Button,
     ConfirmDialog,
     Badge,
+    Rating,
   },
   props: {
     recipe: {
@@ -93,6 +102,7 @@ export default defineComponent({
   emits: ["remove-element"],
   setup(props, { emit }) {
     const showConfirmDialog = ref(false);
+    const rating = Number(props.recipe.rating);
     const theLatestDate = props.recipe.dates
       ? Math.max(...props.recipe.dates)
       : "unknown";
@@ -108,6 +118,7 @@ export default defineComponent({
       recipeSource,
       theLatestDate,
       deleteRecipe,
+      rating,
       RATING_MAX,
       ...useI18n(),
     };
@@ -123,7 +134,7 @@ export default defineComponent({
 
   h3 {
     margin-top: 0;
-    margin-bottom: 0.85rem;
+    margin-bottom: 0.5rem;
   }
 }
 
@@ -131,6 +142,8 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding-left: 1rem;
+  border-left: 1px solid #ced4da;
 
   * {
     display: flex;

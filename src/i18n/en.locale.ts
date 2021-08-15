@@ -21,6 +21,7 @@ export default {
         },
         dates: 'Dates of recipe use',
         delete: "Delete recipe",
+        deleteRecipeText: 'Are you sure you want to delete this recipe?',
         details: "Recipe details",
         edit: "Edit recipe",
         ingredients: "Ingredients",
@@ -55,7 +56,7 @@ export default {
         },
         updatedRecipe: {
             summary: "Successfully updated recipe",
-            detail: "Your changes has been updated",
+            detail: "Your recipe has been updated",
         }
     },
     user: {

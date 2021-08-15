@@ -1,5 +1,67 @@
 <template>
-  <div>Recipe: {{ recipe?.name }}</div>
+  <Card class="recipe">
+    <template #title>{{ recipe?.name }}</template>
+    <template #content>
+      <div v-if="recipe" class="p-fluid p-formgrid p-grid">
+        <div class="p-col-12">
+          <Rating
+            v-model="recipe.rating"
+            :stars="RATING_MAX"
+            :readonly="true"
+            :cancel="false"
+            class="p-mb-3"
+          />
+        </div>
+        <div class="p-col-6 recipe-row">
+          <label>{{ t("recipe.ingredients") }}:</label>
+          <ul>
+            <li v-for="ingredient in recipe.ingredients" :key="ingredient.id">
+              {{ ingredient.name }}
+            </li>
+          </ul>
+        </div>
+        <div class="p-col-6 recipe-source">
+          <div class="recipe-row">
+            <label> {{ t("recipe.sourceLabel") }}: </label>
+            {{ t("recipe.source." + recipe.source) }}
+          </div>
+          <div v-if="recipe.source === 'link'" class="recipe-row">
+            <label> {{ t("recipe.url") }}: </label>
+            <a :href="`https://${recipe.recipeUrl}`" target="_blank">
+              {{ recipe.recipeUrl }}
+            </a>
+          </div>
+          <template v-else-if="recipe.source === 'book'">
+            <div class="recipe-row">
+              <label>{{ t("recipe.book.title") }}:</label>
+              {{ recipe.bookTitle }}
+            </div>
+            <div class="recipe-row">
+              <label>{{ t("recipe.book.authors") }}:</label>
+              {{ recipe.bookAuthors }}
+            </div>
+            <div class="recipe-row">
+              <label>{{ t("recipe.book.page") }}:</label>
+              {{ recipe.bookPage }}
+            </div>
+          </template>
+          <div class="recipe-row" v-else>
+            <label>{{ t("recipe.comment") }}:</label>
+            {{ recipe.comment }}
+          </div>
+        </div>
+        <div class="p-col-12 recipe-row p-mt-3">
+          <label class="p-d-block p-mb-1">{{ t("recipe.notes") }}:</label>
+          <div>{{ recipe.notes }}</div>
+        </div>
+      </div>
+    </template>
+    <template #footer>
+      <router-link :to="{ name: 'list' }">
+        <Button :label="t('common.back')" />
+      </router-link>
+    </template>
+  </Card>
 </template>
 
 <script lang="ts">
@@ -7,8 +69,18 @@ import { AppState } from "@/store/types";
 import { computed, defineComponent, onMounted, onUnmounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
+import Card from "primevue/card";
+import Button from "primevue/button";
+import { useI18n } from "vue-i18n";
+import { RATING_MAX } from "@/static/data.config";
+import Rating from "primevue/rating";
 
 export default defineComponent({
+  components: {
+    Card,
+    Button,
+    Rating,
+  },
   setup() {
     const store = useStore<AppState>();
 
@@ -32,9 +104,20 @@ export default defineComponent({
     return {
       recipeId,
       recipe,
+      RATING_MAX,
+      ...useI18n(),
     };
   },
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.recipe {
+  &-row {
+    margin-bottom: 0.5rem;
+    label {
+      font-weight: bold;
+    }
+  }
+}
+</style>

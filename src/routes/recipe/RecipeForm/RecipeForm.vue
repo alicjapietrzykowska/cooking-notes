@@ -16,7 +16,11 @@
           </div>
           <div class="p-field p-col-6">
             <label for="url">{{ t("recipe.dates") }}</label>
-            <Calendar v-model="selectedDates" selectionMode="multiple" />
+            <Calendar
+              v-model="selectedDates"
+              selectionMode="multiple"
+              :maxDate="maxInputValue"
+            />
           </div>
           <div class="p-field p-col-6">
             <label for="ingredients">{{ t("recipe.ingredients") }}</label>
@@ -94,6 +98,7 @@ export default defineComponent({
     const route = useRoute();
     const recipeId = route.params.id;
     const selectedDates = ref<Date[]>([]);
+    const maxInputValue = ref<Date>(new Date());
     const recipe = computed(() => store.state.activeRecipe);
     const user = computed(() => store.state.user);
     const form: Partial<Recipe> = reactive({
@@ -161,6 +166,7 @@ export default defineComponent({
       updateForm,
       recipe,
       RATING_MAX,
+      maxInputValue,
       ...useI18n(),
     };
   },
