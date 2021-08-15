@@ -1,34 +1,58 @@
 <template>
-  <div class="p-d-flex p-jc-between p-ai-baseline">
+  <div class="p-card list-element p-mb-3">
     <div>
       <h3>{{ recipe?.name }}</h3>
-      <div>{{ t("recipe.lastUsed") }}: {{ d(theLatestDate, "short") }}</div>
-      <div>
-        {{ t("recipe.sourceLabel") }}:
+      <div class="p-mb-2">
+        <span class="p-text-bold">{{ t("recipe.lastUsed") }}:</span>
+        {{ d(theLatestDate, "short") }}
+      </div>
+      <div class="p-mb-2">
+        <span class="p-text-bold">{{ t("recipe.sourceLabel") }}: </span>
         <a
           v-if="recipeSource === 'link'"
           :href="recipe.recipeUrl"
           target="_blank"
         >
-          {{ t("recipe.source." + recipeSource) }}
+          <Badge :value="t('recipe.source.' + recipeSource)" class="p-mr-2" />
         </a>
-        <span v-else> {{ t("recipe.source." + recipeSource) }} </span>
+        <Badge
+          v-else
+          :severity="recipeSource === 'book' ? 'success' : 'warning'"
+          :value="t('recipe.source.' + recipeSource)"
+          class="p-mr-2"
+          v-tooltip="recipe.bookTitle || recipe.comment"
+        />
       </div>
-      <div>{{ t("recipe.rating") }}: {{ recipe?.rating }}</div>
+      <div class="p-mb-2">
+        <span class="p-text-bold">{{ t("recipe.rating") }}:</span>
+        {{ recipe?.rating }} / {{ RATING_MAX }}
+      </div>
     </div>
-    <div class="p-d-flex p-flex-column">
+    <div class="settings">
       <router-link :to="{ name: 'recipe', params: { id: recipe.id } }">
-        <Button icon="pi pi-info" class="p-button-rounded p-button-outlined" />
+        <Button
+          icon="pi pi-info"
+          :title="t('recipe.details')"
+          class="settings-button p-button-rounded p-button-outlined"
+        />
       </router-link>
       <router-link :to="{ name: 'edit-recipe', params: { id: recipe.id } }">
         <Button
           icon="pi pi-pencil"
-          class="p-button-rounded p-button-warning p-button-outlined"
+          :title="t('recipe.edit')"
+          class="
+            settings-button
+            p-button-rounded p-button-warning p-button-outlined
+          "
         />
       </router-link>
       <Button
         icon="pi pi-trash"
-        class="p-button-rounded p-button-danger p-button-outlined"
+        :title="t('recipe.delete')"
+        class="
+          settings-button
+          p-button-rounded p-button-danger p-button-outlined
+        "
         @click="showConfirmDialog = true"
       />
     </div>
@@ -47,17 +71,24 @@ import Button from "primevue/button";
 import { SourceKey, Recipe } from "@/store/types";
 import { ConfirmDialog } from "@/components";
 import { useI18n } from "vue-i18n";
+import Badge from "primevue/badge";
+import Tooltip from "primevue/tooltip";
+import { RATING_MAX } from "@/static/data.config";
 
 export default defineComponent({
   components: {
     Button,
     ConfirmDialog,
+    Badge,
   },
   props: {
     recipe: {
       required: true,
       type: Object as PropType<Recipe>,
     },
+  },
+  directives: {
+    tooltip: Tooltip,
   },
   emits: ["remove-element"],
   setup(props, { emit }) {
@@ -77,10 +108,40 @@ export default defineComponent({
       recipeSource,
       theLatestDate,
       deleteRecipe,
+      RATING_MAX,
       ...useI18n(),
     };
   },
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.list-element {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0.85rem;
+  }
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  * {
+    display: flex;
+  }
+
+  .settings-button {
+    width: 2rem;
+    height: 2rem;
+    :deep(.pi) {
+      font-size: 0.7rem;
+    }
+  }
+}
+</style>

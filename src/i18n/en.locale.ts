@@ -12,7 +12,7 @@ export default {
         submit: "Submit",
     },
     recipe: {
-        add: 'Add recipe',
+        add: 'Add new recipe',
         comment: "Comment",
         book: {
             authors: "Book author(s)",
@@ -20,6 +20,9 @@ export default {
             title: "Book title",
         },
         dates: 'Dates of recipe use',
+        delete: "Delete recipe",
+        details: "Recipe details",
+        edit: "Edit recipe",
         ingredients: "Ingredients",
         lastUsed: "Last used",
         name: "Recipe name",

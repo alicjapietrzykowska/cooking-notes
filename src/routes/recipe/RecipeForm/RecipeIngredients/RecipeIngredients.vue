@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="p-inputgroup">
+    <div class="p-inputgroup p-mb-2">
       <InputText placeholder="Add ingredient" v-model.trim="ingredient" />
       <Button
         @click="addIngredient"
@@ -43,7 +43,9 @@ export default defineComponent({
   emits: ["update-ingredients"],
   setup(props, { emit }) {
     const ingredient = ref<string>("");
-    const ingredients = ref(props.recipe ? [...props.recipe.ingredients] : []);
+    const ingredients = ref(
+      props.recipe ? [...props.recipe.ingredients] || [] : []
+    );
     const selectedIngredients = ref(props.recipe?.ingredients || []);
     watch(
       () => props.recipe,

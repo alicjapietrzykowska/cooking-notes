@@ -4,7 +4,7 @@
       <div
         v-for="source of sourceOptions"
         :key="source.key"
-        class="p-field-radiobutton"
+        class="p-field-radiobutton p-mr-4"
       >
         <RadioButton
           :id="source.key"
@@ -17,27 +17,27 @@
       </div>
     </div>
     <div v-if="selectedSource.key === 'link'">
-      <div class="p-field p-col-6">
+      <div class="p-field">
         <label for="url">{{ t("recipe.url") }}</label>
         <InputText id="url" type="text" v-model="form.recipeUrl" />
       </div>
     </div>
     <div v-if="selectedSource.key === 'book'">
-      <div class="p-field p-col-6">
+      <div class="p-field">
         <label for="title">{{ t("recipe.book.title") }}</label>
         <InputText id="title" type="text" v-model="form.bookTitle" />
       </div>
-      <div class="p-field p-col-6">
+      <div class="p-field">
         <label for="page">{{ t("recipe.book.page") }}</label>
         <InputText id="page" type="text" v-model="form.bookPage" />
       </div>
-      <div class="p-field p-col-6">
+      <div class="p-field">
         <label for="authors">{{ t("recipe.book.authors") }}</label>
         <InputText id="authors" type="text" v-model="form.bookAuthors" />
       </div>
     </div>
     <div v-if="selectedSource.key === 'other'">
-      <div class="p-field p-col-6">
+      <div class="p-field">
         <label for="comment">{{ t("recipe.comment") }}</label>
         <Textarea id="comment" type="text" v-model="form.comment" />
       </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="p-grid">
-    <div class="p-col-3">
-      <Button @click="addRecipe" class="btn btn-primary">
+    <div class="p-col-3 p-px-3 p-d-flex p-dir-col p-align-center">
+      <Button @click="addRecipe" class="btn btn-primary p-mb-5">
         {{ t("recipe.add") }}
       </Button>
       <SearchBar />
@@ -65,4 +65,9 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+button {
+  width: 100%;
+  justify-content: center;
+}
+</style>

@@ -14,3 +14,9 @@ export function snapshotToArray<T>(
 
   return returnArr;
 }
+
+export function timestampsToDates(datesAsTimestamps: number[]): Date[] {
+  return datesAsTimestamps.map(
+    (timestamp: number) => new Date(timestamp)
+  );
+}

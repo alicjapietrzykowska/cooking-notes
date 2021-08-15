@@ -25,4 +25,11 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.p-input-icon-left {
+  width: 100%;
+  input {
+    width: 100%;
+  }
+}
+</style>
