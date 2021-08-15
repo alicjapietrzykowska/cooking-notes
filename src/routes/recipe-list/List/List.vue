@@ -4,7 +4,7 @@
       <Button @click="addRecipe" class="btn btn-primary p-mb-5">
         {{ t("recipe.add") }}
       </Button>
-      <SearchBar />
+      <SearchBar @search="searchRecipe" />
     </div>
 
     <div class="p-col">
@@ -52,6 +52,11 @@ export default defineComponent({
       store.dispatch("removeRecipe", id);
     };
 
+    const searchRecipe = (query: string) => {
+      const searchPhrase = query.toString().toLowerCase();
+      store.dispatch("searchRecipe", searchPhrase);
+    };
+
     onMounted(() => {
       store.dispatch("fetchRecipes");
     });
@@ -60,7 +65,7 @@ export default defineComponent({
       store.dispatch("fetchRecipes");
     });
 
-    return { recipes, addRecipe, removeRecipe, ...useI18n() };
+    return { recipes, addRecipe, removeRecipe, searchRecipe, ...useI18n() };
   },
 });
 </script>

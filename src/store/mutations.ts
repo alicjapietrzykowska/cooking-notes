@@ -18,5 +18,11 @@ export const mutations: MutationTree<AppState> = {
         email: payload.email
       }
     }
+  },
+  searchRecipeList(state, payload: string) {
+    const filteredRecipes = state.recipeList.filter(recipe => recipe.name.toLowerCase().includes(payload))
+    if (filteredRecipes.length) {
+      state.recipeList = filteredRecipes
+    }
   }
 };

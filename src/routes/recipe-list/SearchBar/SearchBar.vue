@@ -3,7 +3,8 @@
     <i class="pi pi-search" />
     <InputText
       type="text"
-      v-model="searchQuery"
+      v-model.trim="searchQuery"
+      @keyup="$emit('search', searchQuery)"
       :placeholder="t('common.search')"
     />
   </span>
@@ -18,6 +19,7 @@ export default defineComponent({
   components: {
     InputText,
   },
+  emits: ["search"],
   setup() {
     const searchQuery = ref("");
     return { searchQuery, ...useI18n() };
