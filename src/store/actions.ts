@@ -100,11 +100,7 @@ export const actions: ActionTree<AppState, AppState> = {
         errorMessage: error.message,
       }));
   },
-  searchRecipe({dispatch, commit}, payload: string){
-    if (!payload) {
-      dispatch('fetchRecipes'); 
-      return
-    }
+  searchRecipe({commit}, payload: string){
     commit("searchRecipeList", payload)
   },
   resetActiveRecipe({ commit }) {

@@ -1,7 +1,11 @@
 <template>
   <div class="p-grid">
     <div class="p-col-3 p-px-3 p-d-flex p-dir-col p-align-center">
-      <Button @click="addRecipe" class="btn btn-primary p-mb-5">
+      <Button
+        @click="addRecipe"
+        :disabled="!user"
+        class="btn btn-primary p-mb-5"
+      >
         {{ t("recipe.add") }}
       </Button>
       <SearchBar @search="searchRecipe" />
@@ -16,13 +20,13 @@
           @remove-element="removeRecipe"
         />
       </div>
-      <NotFound v-else />
+      <NotFound v-else :searchPhrase="searchPhrase" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, watch } from "vue";
+import { computed, defineComponent, onMounted, watch, ref } from "vue";
 import SearchBar from "../SearchBar";
 import NotFound from "../NotFound";
 import ListElement from "../ListElement";
@@ -41,8 +45,9 @@ export default defineComponent({
   },
   setup() {
     const store = useStore<AppState>();
-    const recipes = computed(() => store.state.recipeList);
+    const recipes = computed(() => store.state.filteredRecipeList);
     const user = computed(() => store.state.user);
+    const searchPhrase = ref("");
 
     const addRecipe = () => {
       router.push({ name: "add-recipe" });
@@ -53,8 +58,8 @@ export default defineComponent({
     };
 
     const searchRecipe = (query: string) => {
-      const searchPhrase = query.toString().toLowerCase();
-      store.dispatch("searchRecipe", searchPhrase);
+      searchPhrase.value = query.toString().toLowerCase();
+      store.dispatch("searchRecipe", searchPhrase.value);
     };
 
     onMounted(() => {
@@ -65,7 +70,15 @@ export default defineComponent({
       store.dispatch("fetchRecipes");
     });
 
-    return { recipes, addRecipe, removeRecipe, searchRecipe, ...useI18n() };
+    return {
+      user,
+      recipes,
+      searchPhrase,
+      addRecipe,
+      removeRecipe,
+      searchRecipe,
+      ...useI18n(),
+    };
   },
 });
 </script>

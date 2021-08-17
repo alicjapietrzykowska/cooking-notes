@@ -1,6 +1,7 @@
 export default {
     app: {
-        name: "Cooking Notes"
+        name: "Cooking Notes",
+        welcome: "Welcome to the Cooking Notes!"
     },
     common: {
         areYouSure: "Are you sure?",
@@ -8,11 +9,15 @@ export default {
         back: "Back",
         cancel: "Cancel",
         confirm: "Confirm",
+        logInToSave: "Log in or register to view recipes on any device.",
+        notFoundPhrase: "Cannot find recipes under the phrase: \"{phrase}\"",
+        notLoggedIn: "You're not logged in",
         search: "Search",
         submit: "Submit",
     },
     recipe: {
         add: 'Add new recipe',
+        addFirstRecipe: "Add your first recipe",
         comment: "Comment",
         book: {
             authors: "Book author(s)",
@@ -65,6 +70,6 @@ export default {
         logIn: "Log in",
         logOut: "Log out",
         password: "Password",
-        signIn: "Sign in"
+        register: "Register"
     }
 }

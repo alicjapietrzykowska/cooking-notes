@@ -2,6 +2,7 @@ export interface AppState {
   user?: User;
   activeRecipe?: Recipe;
   recipeList: Recipe[];
+  filteredRecipeList: Recipe[];
 }
 
 export interface Credentials {

@@ -10,7 +10,7 @@
         />
         <Button
           class="p-button-secondary"
-          :label="t('user.signIn')"
+          :label="t('user.register')"
           @click="$emit('open-dialog', 'register')"
         />
       </template>

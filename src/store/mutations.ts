@@ -5,6 +5,7 @@ import Firebase from "firebase/app";
 export const mutations: MutationTree<AppState> = {
   updateRecipesList(state, payload: Recipe[]) {
     state.recipeList = payload;
+    state.filteredRecipeList = payload;
   },
   updateActiveRecipe(state, payload: Recipe) {
     state.activeRecipe = payload;
@@ -22,7 +23,11 @@ export const mutations: MutationTree<AppState> = {
   searchRecipeList(state, payload: string) {
     const filteredRecipes = state.recipeList.filter(recipe => recipe.name.toLowerCase().includes(payload))
     if (filteredRecipes.length) {
-      state.recipeList = filteredRecipes
+      state.filteredRecipeList = filteredRecipes
+    } else if (payload) {
+      state.filteredRecipeList = []
+    } else {
+      state.filteredRecipeList = state.recipeList
     }
   }
 };
