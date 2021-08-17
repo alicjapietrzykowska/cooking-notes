@@ -111,7 +111,6 @@ export default defineComponent({
     const allIngredients = ref([]);
 
     const updateForm = (values: Partial<Recipe>) => {
-      console.log({ values });
       Object.assign(form, values);
     };
 

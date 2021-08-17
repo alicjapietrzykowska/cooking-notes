@@ -8,7 +8,6 @@ export const mutations: MutationTree<AppState> = {
     state.filteredRecipeList = payload;
   },
   updateActiveRecipe(state, payload: Recipe) {
-    console.log(payload)
     state.activeRecipe = payload;
   },
   updateUser(state, payload: Firebase.User | undefined | null) {
