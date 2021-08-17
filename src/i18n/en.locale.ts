@@ -42,6 +42,11 @@ export default {
         rating: "Rating",
         url: "Recipe url"
     },
+    routes: {
+        add: 'Add New Recipe',
+        edit: "Edit Recipe",
+        details: "Recipe Details"
+    },
     toasts: {
         createdRecipe: {
             summary: "Successfully created recipe",

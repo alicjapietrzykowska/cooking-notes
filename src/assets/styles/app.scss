@@ -35,3 +35,9 @@ a {
         padding-top: 0;
     }
 }
+
+.p-rating {
+    &.p-readonly .p-rating-icon {
+        cursor: default;
+    }
+}
