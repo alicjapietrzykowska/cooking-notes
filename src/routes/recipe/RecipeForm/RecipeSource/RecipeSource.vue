@@ -94,20 +94,21 @@ export default defineComponent({
 
     const recipe = computed(() => store.state.activeRecipe);
 
-    const initFormValues = {
-      recipeUrl: "",
-      bookTitle: "",
-      bookPage: "",
-      bookAuthors: "",
-      comment: "",
-    };
-
     const getSource = () => {
       return (
         sourceOptions.value.find(
           (option) => option.key === recipe?.value?.source
         ) || sourceOptions.value[0]
       );
+    };
+
+    const initFormValues = {
+      source: "link",
+      recipeUrl: "",
+      bookTitle: "",
+      bookPage: "",
+      bookAuthors: "",
+      comment: "",
     };
 
     const selectedSource = ref(getSource());

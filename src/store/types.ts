@@ -27,6 +27,7 @@ export interface RecipeState {
 export interface Recipe {
   id: string;
   name: string;
+  dateCreated: number;
   recipeUrl: string;
   rating: number;
   dates: Array<number>;

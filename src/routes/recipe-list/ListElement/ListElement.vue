@@ -13,8 +13,9 @@
         />
       </div>
       <div class="p-mb-2">
-        <span class="p-text-bold">{{ t("recipe.lastUsed") }}:</span>
-        {{ d(theLatestDate, "short") }}
+        <span class="p-text-bold">{{ t("recipe.lastUsed") }}: </span>
+        <span v-if="theLatestDate">{{ d(theLatestDate, "short") }}</span>
+        <span v-else>{{ t("common.unknown") }}</span>
       </div>
       <div class="p-mb-2">
         <span class="p-text-bold">{{ t("recipe.sourceLabel") }}: </span>
@@ -105,7 +106,7 @@ export default defineComponent({
     const rating = Number(props.recipe.rating);
     const theLatestDate = props.recipe.dates
       ? Math.max(...props.recipe.dates)
-      : "unknown";
+      : undefined;
     const recipeSource = ref<SourceKey>(props.recipe.source);
 
     const deleteRecipe = () => {

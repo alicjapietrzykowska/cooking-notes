@@ -105,11 +105,13 @@ export default defineComponent({
       name: "",
       notes: "",
       rating: 1,
+      source: "other",
       ingredients: [],
     });
     const allIngredients = ref([]);
 
     const updateForm = (values: Partial<Recipe>) => {
+      console.log({ values });
       Object.assign(form, values);
     };
 
@@ -125,12 +127,13 @@ export default defineComponent({
     };
 
     const submitForm = () => {
-      form.dates = selectedDatesAsTimestamps();
+      if (selectedDates.value.length) form.dates = selectedDatesAsTimestamps();
       //TODO: Add validation for dates and text fields
       if (recipeId) {
         store.dispatch("updateRecipe", { id: recipeId, ...form });
       } else {
-        store.dispatch("createRecipe", form);
+        const dateCreated = new Date().getTime();
+        store.dispatch("createRecipe", { dateCreated, ...form });
         backToList();
       }
     };

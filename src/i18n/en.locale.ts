@@ -14,6 +14,7 @@ export default {
         notLoggedIn: "You're not logged in",
         search: "Search",
         submit: "Submit",
+        unknown: "Unknown"
     },
     recipe: {
         add: 'Add new recipe',
