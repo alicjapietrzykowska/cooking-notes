@@ -15,7 +15,15 @@ export const actions: ActionTree<AppState, AppState> = {
         detail: i18n.global.t('toasts.registered.detail'),
       });
     })
-    .catch(error => console.error(error))
+    .catch(error => {
+      const errorCode = error.code.split('/')[1]
+      
+      showToast({
+        severity: 'error',
+        summary: i18n.global.t(`toasts.registerError.${errorCode}`),
+        detail: i18n.global.t('toasts.registerError.detail'),
+      });
+    })
   },
 
   loginUser({dispatch}, payload: Credentials) {
@@ -27,7 +35,15 @@ export const actions: ActionTree<AppState, AppState> = {
         detail: i18n.global.t('toasts.loggedIn.detail'),
       });
     })
-    .catch(error => console.error(error))
+    .catch(error => {
+      const errorCode = error.code.split('/')[1]
+      
+      showToast({
+        severity: 'error',
+        summary: i18n.global.t(`toasts.logInError.${errorCode}`),
+        detail: i18n.global.t('toasts.logInError.detail'),
+      });
+    })
   },
 
   logOutUser() {

@@ -20,6 +20,22 @@ a {
     }
 }
 
+.p-dialog {
+    &-content {
+        max-width: 520px;
+    }
+}
+
+.p-field {
+    .validation-error {
+        color: red;
+    }
+}
+
+.p-toast {
+    z-index: 2000 !important;
+}
+
 .p-badge {
     cursor: help;
 }

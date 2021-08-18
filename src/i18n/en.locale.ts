@@ -57,9 +57,21 @@ export default {
             summary: "Successfully logged in",
             detail: "Your has been logged in"
         },
+        logInError: {
+            'invalid-email': "Invalid email format",
+            detail: 'Please check your credentials and try again',
+            'wrong-password': "Invalid password",
+            "user-not-found": "No user found with this email address"
+        },
         registered: {
             summary: "Successfully registered",
             detail: "Your account has been created",
+        },
+        registerError: {
+            'invalid-email': "Invalid email format",
+            detail: 'Please check your credentials and try again',
+            "email-already-in-use": "There is already an account with this email address",
+            'weak-password': "The should have at least 6 characters",
         },
         removedRecipe: {
             summary: "Successfully removed recipe",
@@ -77,5 +89,9 @@ export default {
         logOut: "Log out",
         password: "Password",
         register: "Register"
+    },
+    validation: {
+        invalidEmail: "Invalid email format",
+        weakPassword: "Password should have at least 6 characters, at least one upper case letter, one lower case letter and one number"
     }
 }
