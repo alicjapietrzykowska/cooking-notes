@@ -12,7 +12,7 @@
             class="p-mb-3"
           />
         </div>
-        <div class="p-col-6 recipe-row">
+        <div class="p-col-12 p-md-6 recipe-row">
           <label>{{ t("recipe.ingredients") }}:</label>
           <ul>
             <li v-for="ingredient in recipe.ingredients" :key="ingredient.id">
@@ -20,7 +20,7 @@
             </li>
           </ul>
         </div>
-        <div class="p-col-6 recipe-source">
+        <div class="p-col-12 p-md-6 recipe-source">
           <div class="recipe-row">
             <label> {{ t("recipe.sourceLabel") }}: </label>
             {{ t("recipe.source." + recipe.source) }}

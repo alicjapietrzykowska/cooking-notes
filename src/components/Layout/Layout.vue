@@ -45,5 +45,9 @@ main {
   padding: 2rem;
   max-width: 1320px;
   margin: 0 auto;
+
+  @include breakpoint-max-md {
+    padding: 1rem;
+  }
 }
 </style>

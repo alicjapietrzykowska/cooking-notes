@@ -1,10 +1,10 @@
 <template>
   <div class="p-grid">
-    <div class="p-col-3 p-px-3 p-d-flex p-dir-col p-align-center">
+    <div class="p-col-12 p-md-3 p-d-flex p-dir-col p-align-center p-mb-3">
       <Button
         @click="addRecipe"
         :disabled="!user"
-        class="btn btn-primary p-mb-5"
+        class="btn btn-primary p-mb-3 p-mb-md-5"
       >
         {{ t("recipe.add") }}
       </Button>

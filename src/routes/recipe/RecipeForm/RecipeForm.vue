@@ -10,11 +10,11 @@
             <label for="name">{{ t("recipe.name") }} *</label>
             <InputText id="name" type="text" v-model="form.name" />
           </div>
-          <div class="p-field p-col-6">
+          <div class="p-field p-col-12 p-md-6">
             <label for="source">{{ t("recipe.sourceLabel") }}</label>
             <RecipeSource @update-source="updateForm" />
           </div>
-          <div class="p-field p-col-6">
+          <div class="p-field p-col-12 p-md-6">
             <label for="url">{{ t("recipe.dates") }}</label>
             <Calendar
               v-model="selectedDates"
@@ -22,7 +22,7 @@
               :maxDate="maxInputValue"
             />
           </div>
-          <div class="p-field p-col-6">
+          <div class="p-field p-col-12 p-md-6">
             <label for="ingredients">{{ t("recipe.ingredients") }}</label>
             <RecipeIngredients
               @update-ingredients="updateForm"
