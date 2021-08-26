@@ -44,6 +44,7 @@
       <Button
         class="p-mr-3"
         type="submit"
+        :disabled="!form.name"
         @click="submitForm"
         :label="t('common.submit')"
       />

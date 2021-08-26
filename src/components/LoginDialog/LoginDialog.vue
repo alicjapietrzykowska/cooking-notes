@@ -84,8 +84,8 @@ export default defineComponent({
     const store = useStore<AppState>();
     const email = ref("");
     const password = ref("");
-    const isPasswordStrong = ref(false);
-    const isEmailValid = ref(false);
+    const isPasswordStrong = ref(true);
+    const isEmailValid = ref(true);
     const user = computed(() => store.state.user);
 
     watch(user, () => emit("close"));
