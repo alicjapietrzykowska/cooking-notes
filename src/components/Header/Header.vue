@@ -65,6 +65,11 @@ header {
   align-items: center;
   padding: 2rem;
 
+  @include breakpoint-max-md {
+    min-height: 200px;
+    padding: 3rem 2rem 2rem;
+  }
+
   &:after {
     content: "";
     position: absolute;
@@ -77,8 +82,13 @@ header {
   h1 {
     color: white;
     font-size: 5rem;
-    line-height: 0;
+    line-height: 1;
     z-index: 100;
+    text-align: center;
+
+    @include breakpoint-max-md {
+      font-size: 3em;
+    }
   }
 
   .buttons-wrapper {

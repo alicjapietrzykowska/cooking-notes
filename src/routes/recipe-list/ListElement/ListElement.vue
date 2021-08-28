@@ -2,10 +2,10 @@
   <div class="p-card list-element p-mb-3">
     <div>
       <h3>{{ recipe?.name }}</h3>
-      <div class="p-mb-2 p-d-flex" v-if="rating">
+      <div class="p-mb-2 p-d-md-flex" v-if="rating">
         <span class="p-text-bold p-mr-2">{{ t("recipe.rating") }}:</span>
         <Rating
-          class="p-d-inline"
+          class="p-d-sm-inline p-mt-1 p-mt-md-0"
           v-model="rating"
           :stars="RATING_MAX"
           :readonly="true"
