@@ -1,9 +1,12 @@
 <template>
   <div>
     <div class="p-inputgroup p-mb-2">
-      <InputText placeholder="Add ingredient" v-model.trim="ingredient" />
+      <InputText
+        :placeholder="t('ingredients.add')"
+        v-model.trim="ingredient"
+      />
       <Button
-        @click="addIngredient"
+        @click="manageNewIngredient"
         icon="pi pi-plus"
         class="p-button-primary"
       />
@@ -12,27 +15,62 @@
       v-model="selectedIngredients"
       :options="ingredients"
       optionLabel="name"
-      placeholder="Select ingredients"
+      :placeholder="t('ingredients.select')"
       :filter="true"
       class="multiselect-custom"
       @change="updateForm"
+      display="chip"
     >
+      <template #option="slotProps">
+        <div class="ingredient-option">
+          <div>{{ slotProps.option.name }}</div>
+          <Button
+            @click.stop="confirmDelete(slotProps.option)"
+            :title="t('ingredients.delete')"
+            icon="pi pi-times"
+            class="p-button-rounded p-button-danger p-button-text"
+          />
+        </div>
+      </template>
     </MultiSelect>
+
+    <ConfirmDialog
+      v-if="showConfirmDialog"
+      v-model:visible="showConfirmDialog"
+      @close="
+        showConfirmDialog = false;
+        ingredientToDelete = undefined;
+      "
+      @confirm="deleteIngredient"
+      :text="t('ingredients.deleteIngredientText')"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, PropType } from "vue";
+import {
+  defineComponent,
+  ref,
+  watch,
+  PropType,
+  onMounted,
+  computed,
+} from "vue";
 import MultiSelect from "primevue/multiselect";
 import InputText from "primevue/inputtext";
 import Button from "primevue/button";
-import { Recipe } from "@/store/types";
+import { Recipe, AppState, NameId } from "@/store/types";
+import { useStore } from "vuex";
+import { v4 as uuidv4 } from "uuid";
+import { useI18n } from "vue-i18n";
+import { ConfirmDialog } from "@/components";
 
 export default defineComponent({
   components: {
     InputText,
     Button,
     MultiSelect,
+    ConfirmDialog,
   },
   props: {
     recipe: {
@@ -42,19 +80,26 @@ export default defineComponent({
   },
   emits: ["update-ingredients"],
   setup(props, { emit }) {
+    const store = useStore<AppState>();
+    const user = computed(() => store.state.user);
     const ingredient = ref<string>("");
-    const ingredients = ref(
-      props.recipe ? [...props.recipe.ingredients] || [] : []
-    );
+    const ingredients = computed(() => store.state.ingredientsList || []);
     const selectedIngredients = ref(props.recipe?.ingredients || []);
+    const showConfirmDialog = ref(false);
+    const ingredientToDelete = ref<NameId>();
+
     watch(
       () => props.recipe,
       () => {
         if (!props.recipe || !props.recipe.ingredients) return;
-        ingredients.value = [...props.recipe.ingredients];
         selectedIngredients.value = props.recipe.ingredients;
       }
     );
+    watch(ingredients, () => {
+      if (ingredient.value) {
+        manageNewIngredient();
+      }
+    });
 
     const updateForm = () => {
       const chosenIngredients = {
@@ -63,26 +108,85 @@ export default defineComponent({
       emit("update-ingredients", chosenIngredients);
     };
 
-    const addIngredient = () => {
-      const newIngredient = {
-        name: ingredient.value,
-        id: ingredients?.value?.length | 0,
-      };
-      ingredients.value.push(newIngredient);
-      selectedIngredients.value.push(newIngredient);
-      ingredient.value = "";
-      updateForm();
+    const manageNewIngredient = () => {
+      const savedIngredient = ingredients.value.find(
+        (savedIngredient) => savedIngredient.name === ingredient.value
+      );
+      if (savedIngredient) {
+        selectedIngredients.value.push(savedIngredient);
+        ingredient.value = "";
+        updateForm();
+      } else {
+        const newIngredient = {
+          id: uuidv4(),
+          name: ingredient.value,
+        };
+        store.dispatch("createIngredient", newIngredient);
+      }
     };
 
+    const confirmDelete = (ingredient: NameId) => {
+      showConfirmDialog.value = true;
+      ingredientToDelete.value = ingredient;
+    };
+
+    const deleteIngredient = () => {
+      selectedIngredients.value = selectedIngredients.value.filter(
+        (selectedIngredient) =>
+          selectedIngredient.id !== ingredientToDelete.value?.id
+      );
+      store.dispatch("removeIngredient", ingredientToDelete.value?.id);
+      if (props.recipe) {
+        store.dispatch("updateRecipe", {
+          id: props.recipe.id,
+          ingredients: ingredients.value.filter(
+            (savedIngredient) =>
+              savedIngredient.id !== ingredientToDelete.value?.id
+          ),
+        });
+      }
+      showConfirmDialog.value = false;
+      ingredientToDelete.value = undefined;
+    };
+
+    onMounted(() => {
+      store.dispatch("fetchIngredients");
+    });
+
+    watch(user, () => {
+      store.dispatch("fetchIngredients");
+    });
+
     return {
-      addIngredient,
+      manageNewIngredient,
       updateForm,
       ingredient,
       ingredients,
       selectedIngredients,
+      confirmDelete,
+      deleteIngredient,
+      showConfirmDialog,
+      ...useI18n(),
     };
   },
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.ingredient-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  button {
+    width: 2rem;
+    height: 2rem !important;
+    padding: 0;
+    &:deep(.pi) {
+      font-size: 0.8rem;
+      line-height: 1;
+    }
+  }
+}
+</style>

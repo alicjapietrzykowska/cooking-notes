@@ -21,6 +21,7 @@ const auth = Firebase.auth();
 
 // refs
 const recipesRef = db.ref("/recipes");
+const ingredientsRef = db.ref("/ingredients");
 
 // export utils/refs
-export { recipesRef, auth };
+export { recipesRef, ingredientsRef, auth };
