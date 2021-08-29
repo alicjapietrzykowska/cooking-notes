@@ -3,6 +3,7 @@ export interface AppState {
   activeRecipe?: Recipe;
   recipeList: Recipe[];
   filteredRecipeList: Recipe[];
+  ingredientsList: NameId[]
 }
 
 export interface Credentials {
@@ -17,7 +18,7 @@ export interface User {
 
 export interface NameId {
   name: string;
-  id: number;
+  id: string;
 }
 
 export interface RecipeState {

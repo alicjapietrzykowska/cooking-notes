@@ -1,5 +1,5 @@
 import { MutationTree } from "vuex";
-import { AppState, Recipe } from "./types";
+import { AppState, Recipe, NameId } from './types';
 import Firebase from "firebase/app";
 
 export const mutations: MutationTree<AppState> = {
@@ -9,6 +9,9 @@ export const mutations: MutationTree<AppState> = {
   },
   updateActiveRecipe(state, payload: Recipe) {
     state.activeRecipe = payload;
+  },
+  updateIngredientsList(state, payload: NameId[]) {
+    state.ingredientsList = payload;
   },
   updateUser(state, payload: Firebase.User | undefined | null) {
     if (!payload) {

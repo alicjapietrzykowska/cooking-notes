@@ -16,6 +16,13 @@ export default {
         submit: "Submit",
         unknown: "Unknown"
     },
+    ingredients: {
+        add: "Add ingredient",
+        delete: "Delete ingredient",
+        deleteIngredientText: "Are you sure you want to delete this ingredient?",
+        select: "Select ingredient",
+
+    },
     recipe: {
         add: 'Add new recipe',
         addFirstRecipe: "Add your first recipe",
@@ -73,9 +80,13 @@ export default {
             "email-already-in-use": "There is already an account with this email address",
             'weak-password': "The should have at least 6 characters",
         },
+        removedIngredient: {
+            summary: "Successfully removed ingredient",
+            detail: "Your ingredient has been removed",
+        },
         removedRecipe: {
             summary: "Successfully removed recipe",
-            detail: "Your recipe had been removed",
+            detail: "Your recipe has been removed",
         },
         updatedRecipe: {
             summary: "Successfully updated recipe",

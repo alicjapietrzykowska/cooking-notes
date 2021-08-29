@@ -1,6 +1,6 @@
 import { ActionTree } from "vuex";
-import { AppState, Recipe, Credentials } from "./types";
-import { auth, recipesRef } from "@/services/firebase.service";
+import { AppState, Recipe, Credentials, NameId } from './types';
+import { auth, ingredientsRef, recipesRef } from "@/services/firebase.service";
 import { snapshotToArray } from "@/services/utils.service";
 import { showToast } from '@/services/toast.service';
 import router from '@/routes';
@@ -121,5 +121,39 @@ export const actions: ActionTree<AppState, AppState> = {
   },
   resetActiveRecipe({ commit }) {
     commit("updateActiveRecipe", undefined);
+  },
+
+  fetchIngredients({state, commit }) {
+    const userId = state.user?.uid
+    if (userId) {
+      ingredientsRef.child(userId).on(
+        "value",
+        function (snapshot) {
+          const data = snapshotToArray(snapshot);
+          commit("updateIngredientsList", data);
+        },
+        function (error) {
+          console.error("Error: " + error);
+        }
+      );
+    } else {
+      commit("updateIngredientsList", undefined);
+    }
+  },
+
+  createIngredient({state}, payload: NameId) {
+    const userId = state.user?.uid
+    if (userId) {
+      ingredientsRef.child(userId).push(payload);
+    } 
+  },
+  removeIngredient({state}, ingredientId: string) {
+    const userId = state.user?.uid
+    if (!ingredientId || !userId) return
+    ingredientsRef.child(userId).child(ingredientId).remove();
+    showToast({
+      summary: i18n.global.t('toasts.removedIngredient.summary'),
+      detail: i18n.global.t('toasts.removedIngredient.detail'),
+    });
   },
 };
