@@ -4,6 +4,9 @@
       <div v-if="isLoggedIn && searchPhrase">
         <h3>{{ t("common.notFoundPhrase", { phrase: searchPhrase }) }}</h3>
       </div>
+      <div v-else-if="isLoggedIn && isFiltered">
+        <h3>{{ t("common.notFoundFilters") }}</h3>
+      </div>
       <div v-else-if="isLoggedIn">
         <h2>{{ t("app.welcome") }}</h2>
         <router-link :to="{ name: 'add-recipe' }">
@@ -34,6 +37,10 @@ export default defineComponent({
   props: {
     searchPhrase: {
       type: String,
+      required: false,
+    },
+    isFiltered: {
+      type: Boolean,
       required: false,
     },
   },

@@ -10,18 +10,24 @@ export default {
         cancel: "Cancel",
         confirm: "Confirm",
         logInToSave: "Log in or register to view recipes on any device.",
-        notFoundPhrase: "Cannot find recipes under the phrase: \"{phrase}\"",
+        notFoundFilters: "Cannot find recipes with these filters.",
+        notFoundPhrase: "Cannot find recipes under the phrase: \"{phrase}\".",
         notLoggedIn: "You're not logged in",
         search: "Search",
         submit: "Submit",
         unknown: "Unknown"
+    },
+    filters: {
+        ingredients: "Filter by ingredients",
+        source: "Filter by source",
+        title: "Filters",
     },
     ingredients: {
         add: "Add ingredient",
         delete: "Delete ingredient",
         deleteIngredientText: "Are you sure you want to delete this ingredient?",
         select: "Select ingredient",
-
+        title: "Ingredients"
     },
     recipe: {
         add: 'Add new recipe',

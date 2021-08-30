@@ -17,7 +17,6 @@
       optionLabel="name"
       :placeholder="t('ingredients.select')"
       :filter="true"
-      class="multiselect-custom"
       @change="updateForm"
       display="chip"
     >
@@ -172,21 +171,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
-.ingredient-option {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-
-  button {
-    width: 2rem;
-    height: 2rem !important;
-    padding: 0;
-    &:deep(.pi) {
-      font-size: 0.8rem;
-      line-height: 1;
-    }
-  }
-}
-</style>
+<style scoped lang="scss"></style>

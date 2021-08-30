@@ -1,5 +1,5 @@
 import { ActionTree } from "vuex";
-import { AppState, Recipe, Credentials, NameId } from './types';
+import { AppState, Recipe, Credentials, NameId, SourceKey, FilterList } from '@/store/types';
 import { auth, ingredientsRef, recipesRef } from "@/services/firebase.service";
 import { snapshotToArray } from "@/services/utils.service";
 import { showToast } from '@/services/toast.service';
@@ -117,7 +117,25 @@ export const actions: ActionTree<AppState, AppState> = {
       }));
   },
   searchRecipe({commit}, payload: string){
-    commit("searchRecipeList", payload)
+    const filters: FilterList = {
+      filters: payload,
+      filterType: 'search'
+    }
+    commit("filterList", filters)
+  },
+  filterListByIngredients({commit}, payload: NameId[]){
+    const filters: FilterList = {
+      filters: payload,
+      filterType: 'ingredients'
+    }
+    commit("filterList", filters)
+  },
+  filterListBySource({commit}, payload: SourceKey[]){
+    const filters: FilterList = {
+      filters: payload,
+      filterType: 'source'
+    }
+    commit("filterList", filters)
   },
   resetActiveRecipe({ commit }) {
     commit("updateActiveRecipe", undefined);
