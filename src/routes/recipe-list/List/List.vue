@@ -38,7 +38,7 @@ import ListElement from "../ListElement";
 import Button from "primevue/button";
 import router from "@/routes";
 import { useStore } from "vuex";
-import { AppState } from "@/store/types";
+import { AppState, Filter } from "@/store/types";
 import { useI18n } from "vue-i18n";
 import Filters from "../Filters";
 
@@ -67,7 +67,11 @@ export default defineComponent({
 
     const searchRecipe = (query: string) => {
       searchPhrase.value = query.toString().toLowerCase();
-      store.dispatch("searchRecipe", searchPhrase.value);
+      const filter: Filter = {
+        value: searchPhrase.value,
+        filterType: "search",
+      };
+      store.dispatch("filterRecipeList", filter);
     };
 
     onMounted(() => {

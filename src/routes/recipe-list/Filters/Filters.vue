@@ -43,7 +43,13 @@ import Checkbox from "primevue/checkbox";
 import MultiSelect from "primevue/multiselect";
 import { ConfirmDialog } from "@/components";
 import Button from "primevue/button";
-import { AppState, NameId, SourceOption, SourceKey } from "@/store/types";
+import {
+  AppState,
+  NameId,
+  SourceOption,
+  SourceKey,
+  Filter,
+} from "@/store/types";
 import { useStore } from "vuex";
 
 export default defineComponent({
@@ -59,19 +65,25 @@ export default defineComponent({
     const user = computed(() => store.state.user);
     const ingredients = computed(() => store.state.ingredientsList || []);
     const selectedIngredients = ref<NameId[]>([]);
-    const selectedSources = ref<SourceOption[]>([]);
+    const selectedSources = ref<SourceKey[]>([]);
     const sources: SourceKey[] = ["link", "book", "other"];
 
     const filterByIngredients = () => {
       emit("is-filtered", true);
-      store.dispatch("filterListByIngredients", selectedIngredients.value);
-      store.dispatch("filterListBySource", selectedSources.value);
+      const filter: Filter = {
+        value: selectedIngredients.value,
+        filterType: "ingredients",
+      };
+      store.dispatch("filterRecipeList", filter);
     };
 
     const filterBySource = () => {
       emit("is-filtered", true);
-      store.dispatch("filterListBySource", selectedSources.value);
-      store.dispatch("filterListByIngredients", selectedIngredients.value);
+      const filter: Filter = {
+        value: selectedSources.value,
+        filterType: "source",
+      };
+      store.dispatch("filterRecipeList", filter);
     };
 
     onMounted(() => {

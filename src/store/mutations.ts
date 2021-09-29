@@ -1,7 +1,7 @@
 import { MutationTree } from "vuex";
-import { AppState, Recipe, NameId, FilterList } from './types';
+import { AppState, Recipe, NameId, Filter } from './types';
 import Firebase from "firebase/app";
-import { filterRecipeList } from "@/services/filter.service";
+import { filterRecipeList, manageActiveFilters } from "@/services/filter.service";
 
 export const mutations: MutationTree<AppState> = {
   updateRecipesList(state, payload: Recipe[]) {
@@ -24,10 +24,8 @@ export const mutations: MutationTree<AppState> = {
       }
     }
   },
-  filterList(state, payload: FilterList) {
-    state.filteredRecipeList = filterRecipeList(payload, state.filteredRecipeList) || state.recipeList
-  
-    state.isListFiltered = state.filteredRecipeList.length !== state.recipeList.length
-
+  filterList(state: AppState, payload: Filter) {    
+    state.activeFilters = manageActiveFilters(payload, [...state.activeFilters])
+    state.filteredRecipeList = filterRecipeList(state.activeFilters, state.recipeList) || state.recipeList
   }
 };

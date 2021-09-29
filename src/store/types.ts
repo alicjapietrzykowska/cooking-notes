@@ -4,7 +4,7 @@ export interface AppState {
   recipeList: Recipe[];
   filteredRecipeList: Recipe[];
   ingredientsList: NameId[];
-  isListFiltered: boolean
+  activeFilters: Filter[]
 }
 
 export interface Credentials {
@@ -51,7 +51,7 @@ export type SourceKey = "link" | "book" | "other";
 
 export type LoginDialogType = 'login' | 'register'
 
-export interface FilterList {
+export interface Filter {
   filterType: 'search' | 'ingredients' | 'source', 
-  filters: NameId[] | SourceKey[] | string
+  value: NameId[] | SourceKey[] | string
 }
