@@ -18,7 +18,9 @@ export default {
         unknown: "Unknown"
     },
     filters: {
+        hide: "Hide filters",
         ingredients: "Filter by ingredients",
+        show: "Show filters",
         source: "Filter by source",
         title: "Filters",
     },
