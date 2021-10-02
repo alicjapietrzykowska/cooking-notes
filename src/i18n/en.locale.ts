@@ -14,6 +14,7 @@ export default {
         notFoundPhrase: "Cannot find recipes under the phrase: \"{phrase}\".",
         notLoggedIn: "You're not logged in",
         search: "Search",
+        sort: "Sort list",
         submit: "Submit",
         unknown: "Unknown"
     },
@@ -35,6 +36,7 @@ export default {
         add: 'Add new recipe',
         addFirstRecipe: "Add your first recipe",
         comment: "Comment",
+        creationDate: "Creation date",
         book: {
             authors: "Book author(s)",
             page: "Book page",

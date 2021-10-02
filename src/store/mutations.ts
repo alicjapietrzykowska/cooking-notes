@@ -1,5 +1,5 @@
 import { MutationTree } from "vuex";
-import { AppState, Recipe, NameId, Filter } from './types';
+import { AppState, Recipe, NameId, Filter, SortOption } from './types';
 import Firebase from "firebase/app";
 import { filterRecipeList, manageActiveFilters } from "@/services/filter.service";
 
@@ -24,8 +24,13 @@ export const mutations: MutationTree<AppState> = {
       }
     }
   },
-  filterList(state: AppState, payload: Filter) {    
+  filterList(state, payload: Filter) {    
     state.activeFilters = manageActiveFilters(payload, [...state.activeFilters])
     state.filteredRecipeList = filterRecipeList(state.activeFilters, state.recipeList) || state.recipeList
+  },
+  sortRecipeList(state, payload: SortOption) {
+    const field = payload.id
+    const sortedRecipeList = state.filteredRecipeList.sort((a, b) => String(a[field]).localeCompare(String(b[field])))
+    state.filteredRecipeList = payload.order === 'ASC' ? sortedRecipeList : sortedRecipeList.reverse()
   }
 };
