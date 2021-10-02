@@ -5,5 +5,6 @@ export const state: AppState = {
   activeRecipe: undefined,
   recipeList: [],
   filteredRecipeList: [],
-  ingredientsList: []
+  ingredientsList: [],
+  activeFilters: []
 };

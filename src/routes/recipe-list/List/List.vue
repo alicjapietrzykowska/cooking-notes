@@ -9,6 +9,7 @@
         {{ t("recipe.add") }}
       </Button>
       <SearchBar @search="searchRecipe" />
+      <Filters @is-filtered="isListFiltered = $event" />
     </div>
 
     <div class="p-col">
@@ -20,7 +21,11 @@
           @remove-element="removeRecipe"
         />
       </div>
-      <NotFound v-else :searchPhrase="searchPhrase" />
+      <NotFound
+        v-else
+        :isFiltered="isListFiltered"
+        :searchPhrase="searchPhrase"
+      />
     </div>
   </div>
 </template>
@@ -33,8 +38,9 @@ import ListElement from "../ListElement";
 import Button from "primevue/button";
 import router from "@/routes";
 import { useStore } from "vuex";
-import { AppState } from "@/store/types";
+import { AppState, Filter } from "@/store/types";
 import { useI18n } from "vue-i18n";
+import Filters from "../Filters";
 
 export default defineComponent({
   components: {
@@ -42,12 +48,14 @@ export default defineComponent({
     NotFound,
     ListElement,
     Button,
+    Filters,
   },
   setup() {
     const store = useStore<AppState>();
     const recipes = computed(() => store.state.filteredRecipeList);
     const user = computed(() => store.state.user);
     const searchPhrase = ref("");
+    const isListFiltered = ref(false);
 
     const addRecipe = () => {
       router.push({ name: "add-recipe" });
@@ -59,7 +67,11 @@ export default defineComponent({
 
     const searchRecipe = (query: string) => {
       searchPhrase.value = query.toString().toLowerCase();
-      store.dispatch("searchRecipe", searchPhrase.value);
+      const filter: Filter = {
+        value: searchPhrase.value,
+        filterType: "search",
+      };
+      store.dispatch("filterRecipeList", filter);
     };
 
     onMounted(() => {
@@ -74,6 +86,7 @@ export default defineComponent({
       user,
       recipes,
       searchPhrase,
+      isListFiltered,
       addRecipe,
       removeRecipe,
       searchRecipe,

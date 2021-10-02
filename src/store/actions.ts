@@ -1,5 +1,5 @@
 import { ActionTree } from "vuex";
-import { AppState, Recipe, Credentials, NameId } from './types';
+import { AppState, Recipe, Credentials, NameId, SourceKey, Filter } from '@/store/types';
 import { auth, ingredientsRef, recipesRef } from "@/services/firebase.service";
 import { snapshotToArray } from "@/services/utils.service";
 import { showToast } from '@/services/toast.service';
@@ -75,6 +75,7 @@ export const actions: ActionTree<AppState, AppState> = {
       commit("updateRecipesList", undefined);
     }
   },
+
   createRecipe({state}, payload: Partial<Recipe>) {
     const userId = state.user?.uid
     if (userId) {
@@ -85,6 +86,7 @@ export const actions: ActionTree<AppState, AppState> = {
       });
     } 
   },
+
   updateRecipe({state}, payload: Partial<Recipe>) {
     const userId = state.user?.uid
     if (!payload.id || !userId) return
@@ -94,6 +96,7 @@ export const actions: ActionTree<AppState, AppState> = {
       detail: i18n.global.t('toasts.updatedRecipe.detail'),
     });
   },
+
   removeRecipe({state}, recipeId: string) {
     const userId = state.user?.uid
     if (!recipeId || !userId) return
@@ -103,6 +106,7 @@ export const actions: ActionTree<AppState, AppState> = {
       detail: i18n.global.t('toasts.removedRecipe.detail'),
     });
   },
+
   fetchRecipeById({ commit, state }, recipeId: string) {
     const userId = state.user?.uid
     if (!recipeId || !userId) return
@@ -116,9 +120,11 @@ export const actions: ActionTree<AppState, AppState> = {
         errorMessage: error.message,
       }));
   },
-  searchRecipe({commit}, payload: string){
-    commit("searchRecipeList", payload)
+
+  filterRecipeList({commit}, payload: Filter) {
+    commit("filterList", payload)
   },
+
   resetActiveRecipe({ commit }) {
     commit("updateActiveRecipe", undefined);
   },
@@ -147,6 +153,7 @@ export const actions: ActionTree<AppState, AppState> = {
       ingredientsRef.child(userId).push(payload);
     } 
   },
+  
   removeIngredient({state}, ingredientId: string) {
     const userId = state.user?.uid
     if (!ingredientId || !userId) return

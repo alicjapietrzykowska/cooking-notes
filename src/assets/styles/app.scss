@@ -67,6 +67,26 @@ h2 {
     }
 }
 
+.p-multiselect {
+    width: 100%;
+}
 .ingredient-option + .p-ink {
     display: none;
 }
+
+.ingredient-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  
+    button {
+      width: 2rem;
+      height: 2rem !important;
+      padding: 0;
+      &:deep(.pi) {
+        font-size: 0.8rem;
+        line-height: 1;
+      }
+    }
+  }

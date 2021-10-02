@@ -3,7 +3,8 @@ export interface AppState {
   activeRecipe?: Recipe;
   recipeList: Recipe[];
   filteredRecipeList: Recipe[];
-  ingredientsList: NameId[]
+  ingredientsList: NameId[];
+  activeFilters: Filter[]
 }
 
 export interface Credentials {
@@ -49,3 +50,8 @@ export interface SourceOption {
 export type SourceKey = "link" | "book" | "other";
 
 export type LoginDialogType = 'login' | 'register'
+
+export interface Filter {
+  filterType: 'search' | 'ingredients' | 'source', 
+  value: NameId[] | SourceKey[] | string
+}
