@@ -1,15 +1,20 @@
 <template>
   <div class="p-grid">
     <div class="p-col-12 p-md-3 p-d-flex p-dir-col p-align-center p-mb-3">
-      <Button
-        @click="addRecipe"
-        :disabled="!user"
-        class="btn btn-primary p-mb-3 p-mb-md-5"
-      >
+      <Button @click="addRecipe" :disabled="!user" class="p-mb-3 p-mb-md-5">
         {{ t("recipe.add") }}
       </Button>
+
       <SearchBar @search="searchRecipe" />
-      <Filters @is-filtered="isListFiltered = $event" />
+      <Button
+        class="p-mt-3 p-button-outlined p-d-md-none"
+        @click="areFiltersVisible = !areFiltersVisible"
+        >{{ t(`filters.${areFiltersVisible ? "hide" : "show"}`) }}</Button
+      >
+      <Filters
+        v-if="areFiltersVisible"
+        @is-filtered="isListFiltered = $event"
+      />
     </div>
 
     <div class="p-col">
@@ -41,6 +46,7 @@ import { useStore } from "vuex";
 import { AppState, Filter } from "@/store/types";
 import { useI18n } from "vue-i18n";
 import Filters from "../Filters";
+import { BREAKPOINT_MD } from "@/static/breakpoints.config";
 
 export default defineComponent({
   components: {
@@ -56,6 +62,7 @@ export default defineComponent({
     const user = computed(() => store.state.user);
     const searchPhrase = ref("");
     const isListFiltered = ref(false);
+    const areFiltersVisible = ref(false);
 
     const addRecipe = () => {
       router.push({ name: "add-recipe" });
@@ -74,8 +81,18 @@ export default defineComponent({
       store.dispatch("filterRecipeList", filter);
     };
 
+    const checkWindowSize = () => {
+      if (window.innerWidth < BREAKPOINT_MD) {
+        areFiltersVisible.value = false;
+      } else {
+        areFiltersVisible.value = true;
+      }
+    };
+
     onMounted(() => {
       store.dispatch("fetchRecipes");
+      checkWindowSize();
+      window.addEventListener("resize", checkWindowSize);
     });
 
     watch(user, () => {
@@ -87,6 +104,7 @@ export default defineComponent({
       recipes,
       searchPhrase,
       isListFiltered,
+      areFiltersVisible,
       addRecipe,
       removeRecipe,
       searchRecipe,
