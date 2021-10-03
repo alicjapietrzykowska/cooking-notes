@@ -32,5 +32,8 @@ export const mutations: MutationTree<AppState> = {
     const field = payload.id
     const sortedRecipeList = state.filteredRecipeList.sort((a, b) => String(a[field]).localeCompare(String(b[field])))
     state.filteredRecipeList = payload.order === 'ASC' ? sortedRecipeList : sortedRecipeList.reverse()
+  },
+  updateIsLoading(state, payload: boolean) {
+    state.isLoading = payload
   }
 };

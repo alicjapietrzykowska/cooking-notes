@@ -53,22 +53,28 @@ export const actions: ActionTree<AppState, AppState> = {
 
   checkUser({commit}) {
     // Observer for changes to the user's sign-in state initialized in App.vue
+    commit('updateIsLoading', true)
     auth.onAuthStateChanged((user) => {
       commit('updateUser', user)
+      commit('updateIsLoading', false)
     });
   },
 
   fetchRecipes({state, commit }) {
     const userId = state.user?.uid
+    commit('updateIsLoading', true)
     if (userId) {
       recipesRef.child(userId).on(
         "value",
         function (snapshot) {
           const data = snapshotToArray(snapshot);
           commit("updateRecipesList", data);
+          commit('updateIsLoading', false)
         },
         function (error) {
           console.error("Error: " + error);
+          commit('updateIsLoading', false)
+          
         }
       );
     } else {
