@@ -20,3 +20,9 @@ export function timestampsToDates(datesAsTimestamps: number[]): Date[] {
     (timestamp: number) => new Date(timestamp)
   );
 }
+
+export function getTheLargestNumber(arr: number[]) {
+  return arr.reduce(function (accumulatedValue, currentValue) {
+    return Math.max(accumulatedValue, currentValue);
+  })
+}

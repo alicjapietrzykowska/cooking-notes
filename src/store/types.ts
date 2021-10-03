@@ -29,10 +29,11 @@ export interface RecipeState {
 export interface Recipe {
   id: string;
   name: string;
-  dateCreated: number;
+  creationDate: number;
   recipeUrl: string;
   rating: number;
   dates: Array<number>;
+  lastUsed: number;
   ingredients: Array<NameId>;
   notes: string;
   source: SourceKey;
@@ -54,4 +55,10 @@ export type LoginDialogType = 'login' | 'register'
 export interface Filter {
   filterType: 'search' | 'ingredients' | 'source', 
   value: NameId[] | SourceKey[] | string
+}
+
+export interface SortOption {
+  id: keyof Recipe,
+  name: string,
+  order: 'ASC' | 'DESC'
 }

@@ -18,6 +18,9 @@
     </div>
 
     <div class="p-col">
+      <div class="p-d-flex p-jc-end p-mb-3">
+        <SortingDropdown />
+      </div>
       <div v-if="recipes?.length">
         <ListElement
           v-for="recipe of recipes"
@@ -47,6 +50,7 @@ import { AppState, Filter } from "@/store/types";
 import { useI18n } from "vue-i18n";
 import Filters from "../Filters";
 import { BREAKPOINT_MD } from "@/static/breakpoints.config";
+import SortingDropdown from "../SortingDropdown";
 
 export default defineComponent({
   components: {
@@ -55,6 +59,7 @@ export default defineComponent({
     ListElement,
     Button,
     Filters,
+    SortingDropdown,
   },
   setup() {
     const store = useStore<AppState>();

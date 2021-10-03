@@ -82,7 +82,10 @@ import { useRoute } from "vue-router";
 import { Recipe, AppState } from "@/store/types";
 import { useI18n } from "vue-i18n";
 import { RATING_MAX } from "@/static/data.config";
-import { timestampsToDates } from "@/services/utils.service";
+import {
+  timestampsToDates,
+  getTheLargestNumber,
+} from "@/services/utils.service";
 export default defineComponent({
   components: {
     InputText,
@@ -127,13 +130,15 @@ export default defineComponent({
     };
 
     const submitForm = () => {
-      if (selectedDates.value.length) form.dates = selectedDatesAsTimestamps();
-      //TODO: Add validation for dates and text fields
+      if (selectedDates.value.length) {
+        form.dates = selectedDatesAsTimestamps();
+        form.lastUsed = getTheLargestNumber(form.dates);
+      }
       if (recipeId) {
         store.dispatch("updateRecipe", { id: recipeId, ...form });
       } else {
-        const dateCreated = new Date().getTime();
-        store.dispatch("createRecipe", { dateCreated, ...form });
+        const creationDate = new Date().getTime();
+        store.dispatch("createRecipe", { creationDate, ...form });
         backToList();
       }
     };

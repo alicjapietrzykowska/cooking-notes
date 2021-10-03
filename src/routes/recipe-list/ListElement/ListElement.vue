@@ -14,7 +14,7 @@
       </div>
       <div class="p-mb-2">
         <span class="p-text-bold">{{ t("recipe.lastUsed") }}: </span>
-        <span v-if="theLatestDate">{{ d(theLatestDate, "short") }}</span>
+        <span v-if="recipe.lastUsed">{{ d(recipe.lastUsed, "short") }}</span>
         <span v-else>{{ t("common.unknown") }}</span>
       </div>
       <div class="p-mb-2">
@@ -104,9 +104,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const showConfirmDialog = ref(false);
     const rating = Number(props.recipe.rating);
-    const theLatestDate = props.recipe.dates
-      ? Math.max(...props.recipe.dates)
-      : undefined;
     const recipeSource = ref<SourceKey>(props.recipe.source);
 
     const deleteRecipe = () => {
@@ -117,7 +114,6 @@ export default defineComponent({
     return {
       showConfirmDialog,
       recipeSource,
-      theLatestDate,
       deleteRecipe,
       rating,
       RATING_MAX,

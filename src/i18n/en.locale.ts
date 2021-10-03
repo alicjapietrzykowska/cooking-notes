@@ -6,14 +6,17 @@ export default {
     common: {
         areYouSure: "Are you sure?",
         areYouSureProceed: "Are you sure you want to proceed?",
+        ASC: 'Ascending',
         back: "Back",
         cancel: "Cancel",
         confirm: "Confirm",
+        DESC: 'Descending',
         logInToSave: "Log in or register to view recipes on any device.",
         notFoundFilters: "Cannot find recipes with these filters.",
         notFoundPhrase: "Cannot find recipes under the phrase: \"{phrase}\".",
         notLoggedIn: "You're not logged in",
         search: "Search",
+        sort: "Sort list",
         submit: "Submit",
         unknown: "Unknown"
     },
@@ -35,6 +38,7 @@ export default {
         add: 'Add new recipe',
         addFirstRecipe: "Add your first recipe",
         comment: "Comment",
+        creationDate: "Creation date",
         book: {
             authors: "Book author(s)",
             page: "Book page",
