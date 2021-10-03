@@ -6,9 +6,11 @@ export default {
     common: {
         areYouSure: "Are you sure?",
         areYouSureProceed: "Are you sure you want to proceed?",
+        ASC: 'Ascending',
         back: "Back",
         cancel: "Cancel",
         confirm: "Confirm",
+        DESC: 'Descending',
         logInToSave: "Log in or register to view recipes on any device.",
         notFoundFilters: "Cannot find recipes with these filters.",
         notFoundPhrase: "Cannot find recipes under the phrase: \"{phrase}\".",

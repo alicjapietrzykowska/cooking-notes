@@ -1,5 +1,6 @@
 <template>
   <Dropdown
+    class="sorting"
     v-model="selectedSorting"
     :options="options"
     optionLabel="name"
@@ -8,8 +9,16 @@
   >
     <template #value="slotProps">
       <div v-if="slotProps.value">
-        <span>{{ slotProps.value.order }}</span>
-        <span>{{ slotProps.value.name }}</span>
+        <i
+          class="pi p-mr-2"
+          :class="
+            slotProps.value.order === 'ASC' ? 'pi-arrow-down' : 'pi-arrow-up'
+          "
+        />
+        <span>
+          {{ slotProps.value.name }}:
+          {{ t(`common.${slotProps.value.order}`) }}
+        </span>
       </div>
       <span v-else>
         {{ slotProps.placeholder }}
@@ -17,8 +26,16 @@
     </template>
     <template #option="slotProps">
       <div>
-        <span>{{ slotProps.option.order }}</span>
-        <span>{{ slotProps.option.name }}</span>
+        <i
+          class="pi p-mr-2"
+          :class="
+            slotProps.option.order === 'ASC' ? 'pi-arrow-down' : 'pi-arrow-up'
+          "
+        />
+        <span>
+          {{ slotProps.option.name }}:
+          {{ t(`common.${slotProps.option.order}`) }}
+        </span>
       </div>
     </template>
   </Dropdown>
@@ -65,4 +82,12 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.sorting {
+  min-width: 250px;
+
+  @include breakpoint-max-md {
+    width: 100%;
+  }
+}
+</style>
