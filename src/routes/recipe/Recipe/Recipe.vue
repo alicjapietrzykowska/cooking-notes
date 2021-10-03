@@ -13,7 +13,7 @@
           />
         </div>
         <div class="p-col-12 p-md-6 recipe-row">
-          <label>{{ t("recipe.ingredients") }}:</label>
+          <label>{{ $t("recipe.ingredients") }}:</label>
           <ul>
             <li v-for="ingredient in recipe.ingredients" :key="ingredient.id">
               {{ ingredient.name }}
@@ -22,43 +22,43 @@
         </div>
         <div class="p-col-12 p-md-6 recipe-source">
           <div class="recipe-row">
-            <label> {{ t("recipe.sourceLabel") }}: </label>
-            {{ t("recipe.source." + recipe.source) }}
+            <label> {{ $t("recipe.sourceLabel") }}: </label>
+            {{ $t("recipe.source." + recipe.source) }}
           </div>
           <div v-if="recipe.source === 'link'" class="recipe-row">
-            <label> {{ t("recipe.url") }}: </label>
+            <label> {{ $t("recipe.url") }}: </label>
             <a :href="`https://${recipe.recipeUrl}`" target="_blank">
               {{ recipe.recipeUrl }}
             </a>
           </div>
           <template v-else-if="recipe.source === 'book'">
             <div class="recipe-row">
-              <label>{{ t("recipe.book.title") }}:</label>
+              <label>{{ $t("recipe.book.title") }}:</label>
               {{ recipe.bookTitle }}
             </div>
             <div class="recipe-row">
-              <label>{{ t("recipe.book.authors") }}:</label>
+              <label>{{ $t("recipe.book.authors") }}:</label>
               {{ recipe.bookAuthors }}
             </div>
             <div class="recipe-row">
-              <label>{{ t("recipe.book.page") }}:</label>
+              <label>{{ $t("recipe.book.page") }}:</label>
               {{ recipe.bookPage }}
             </div>
           </template>
           <div class="recipe-row" v-else>
-            <label>{{ t("recipe.comment") }}:</label>
+            <label>{{ $t("recipe.comment") }}:</label>
             {{ recipe.comment }}
           </div>
         </div>
         <div class="p-col-12 recipe-row p-mt-3">
-          <label class="p-d-block p-mb-1">{{ t("recipe.notes") }}:</label>
+          <label class="p-d-block p-mb-1">{{ $t("recipe.notes") }}:</label>
           <div>{{ recipe.notes }}</div>
         </div>
       </div>
     </template>
     <template #footer>
       <router-link :to="{ name: 'list' }">
-        <Button :label="t('common.back')" />
+        <Button :label="$t('common.back')" />
       </router-link>
     </template>
   </Card>
@@ -71,7 +71,6 @@ import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import Card from "primevue/card";
 import Button from "primevue/button";
-import { useI18n } from "vue-i18n";
 import { RATING_MAX } from "@/static/data.config";
 import Rating from "primevue/rating";
 
@@ -105,7 +104,6 @@ export default defineComponent({
       recipeId,
       recipe,
       RATING_MAX,
-      ...useI18n(),
     };
   },
 });

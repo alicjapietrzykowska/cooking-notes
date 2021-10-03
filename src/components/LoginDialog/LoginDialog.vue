@@ -1,31 +1,35 @@
 <template>
   <Dialog
     class="login-dialog"
-    :header="dialogType === 'login' ? t('user.logIn') : t('user.createAccount')"
+    :header="
+      dialogType === 'login' ? $t('user.logIn') : $t('user.createAccount')
+    "
     :modal="true"
   >
     <form class="p-fluid p-formgrid p-grid">
       <div class="p-field p-col-12">
-        <label for="email">{{ t("user.email") }}</label>
+        <label for="email">{{ $t("user.email") }}</label>
         <InputText
           id="email"
           type="email"
           v-model="email"
           @keyup="checkEmail"
+          autocomplete="login"
         />
         <div
           class="validation-error p-mt-2"
           v-if="email.length && !isEmailValid"
         >
-          {{ t("validation.invalidEmail") }}
+          {{ $t("validation.invalidEmail") }}
         </div>
       </div>
       <div class="p-field p-col-12">
-        <label for="password">{{ t("user.password") }}</label>
+        <label for="password">{{ $t("user.password") }}</label>
         <Password
           id="password"
           v-model="password"
           @keyup="checkPassword"
+          autocomplete="password"
           toggleMask
           :feedback="dialogType === 'register'"
         ></Password>
@@ -35,19 +39,19 @@
             password.length && dialogType === 'register' && !isPasswordStrong
           "
         >
-          {{ t("validation.weakPassword") }}
+          {{ $t("validation.weakPassword") }}
         </div>
       </div>
     </form>
     <template #footer>
       <Button
-        :label="t('common.cancel')"
+        :label="$t('common.cancel')"
         @click="$emit('close')"
         class="p-button-outlined"
       />
       <Button
         :label="
-          dialogType === 'login' ? t('user.logIn') : t('user.createAccount')
+          dialogType === 'login' ? $t('user.logIn') : $t('user.createAccount')
         "
         :disabled="!isPasswordStrong || !isEmailValid"
         @click="manageConfirm"
@@ -65,7 +69,6 @@ import InputText from "primevue/inputtext";
 import { useStore } from "vuex";
 import { AppState, Credentials } from "@/store/types";
 import Button from "primevue/button";
-import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: {
@@ -122,7 +125,6 @@ export default defineComponent({
       checkEmail,
       checkPassword,
       manageConfirm,
-      ...useI18n(),
     };
   },
 });

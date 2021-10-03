@@ -1,21 +1,21 @@
 <template>
   <Card>
     <template #title>
-      {{ recipe ? t("recipe.edit") : t("recipe.add") }}
+      {{ recipe ? $t("recipe.edit") : $t("recipe.add") }}
     </template>
     <template #content>
       <form @submit.prevent="submitForm">
         <div class="p-fluid p-formgrid p-grid">
           <div class="p-field p-col-12">
-            <label for="name">{{ t("recipe.name") }} *</label>
+            <label for="name">{{ $t("recipe.name") }} *</label>
             <InputText id="name" type="text" v-model="form.name" />
           </div>
           <div class="p-field p-col-12 p-md-6">
-            <label for="source">{{ t("recipe.sourceLabel") }}</label>
+            <label for="source">{{ $t("recipe.sourceLabel") }}</label>
             <RecipeSource @update-source="updateForm" />
           </div>
           <div class="p-field p-col-12 p-md-6">
-            <label for="url">{{ t("recipe.dates") }}</label>
+            <label for="url">{{ $t("recipe.dates") }}</label>
             <Calendar
               v-model="selectedDates"
               selectionMode="multiple"
@@ -23,18 +23,18 @@
             />
           </div>
           <div class="p-field p-col-12 p-md-6">
-            <label for="ingredients">{{ t("recipe.ingredients") }}</label>
+            <label for="ingredients">{{ $t("recipe.ingredients") }}</label>
             <RecipeIngredients
               @update-ingredients="updateForm"
               :recipe="recipe"
             />
           </div>
           <div class="p-field p-col-12">
-            <label for="rating">{{ t("recipe.rating") }}</label>
+            <label for="rating">{{ $t("recipe.rating") }}</label>
             <Rating :stars="RATING_MAX" v-model="form.rating" :cancel="false" />
           </div>
           <div class="p-field p-col-12">
-            <label for="notes">{{ t("recipe.notes") }}</label>
+            <label for="notes">{{ $t("recipe.notes") }}</label>
             <Textarea id="notes" v-model="form.notes" rows="4" />
           </div>
         </div>
@@ -46,12 +46,12 @@
         type="submit"
         :disabled="!form.name"
         @click="submitForm"
-        :label="t('common.submit')"
+        :label="$t('common.submit')"
       />
       <Button
         type="button"
         class="p-button p-button-outlined p-button-secondary"
-        :label="t('common.back')"
+        :label="$t('common.back')"
         @click="backToList"
       />
     </template>
@@ -80,7 +80,6 @@ import RecipeIngredients from "./RecipeIngredients";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { Recipe, AppState } from "@/store/types";
-import { useI18n } from "vue-i18n";
 import { RATING_MAX } from "@/static/data.config";
 import {
   timestampsToDates,
@@ -175,7 +174,6 @@ export default defineComponent({
       recipe,
       RATING_MAX,
       maxInputValue,
-      ...useI18n(),
     };
   },
 });
