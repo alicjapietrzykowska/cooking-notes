@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { i18n } from "@/i18n";
-
+import PageNotFound from './not-found';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -30,6 +30,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () =>
       import("./recipe/RecipeForm"),
   },
+  { 
+    path: '/:pathMatch(.*)*',
+    name: "not-found",
+    component: PageNotFound
+  }
 ];
 
 const router = createRouter({

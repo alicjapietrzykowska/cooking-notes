@@ -4,7 +4,8 @@ export interface AppState {
   recipeList: Recipe[];
   filteredRecipeList: Recipe[];
   ingredientsList: NameId[];
-  activeFilters: Filter[]
+  activeFilters: Filter[],
+  isLoading: boolean
 }
 
 export interface Credentials {
