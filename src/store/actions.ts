@@ -72,13 +72,13 @@ export const actions: ActionTree<AppState, AppState> = {
           commit('updateIsLoading', false)
         },
         function (error) {
-          console.error("Error: " + error);
           commit('updateIsLoading', false)
-          
+          console.error("Error: " + error);
         }
       );
     } else {
       commit("updateRecipesList", undefined);
+      commit('updateIsLoading', false)
     }
   },
 

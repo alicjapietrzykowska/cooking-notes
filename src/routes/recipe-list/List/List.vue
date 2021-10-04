@@ -2,14 +2,14 @@
   <div class="p-grid">
     <div class="p-col-12 p-md-3 p-d-flex p-dir-col p-align-center p-mb-3">
       <Button @click="addRecipe" :disabled="!user" class="p-mb-3 p-mb-md-5">
-        {{ t("recipe.add") }}
+        {{ $t("recipe.add") }}
       </Button>
 
       <SearchBar @search="searchRecipe" />
       <Button
         class="p-mt-3 p-button-outlined p-d-md-none"
         @click="areFiltersVisible = !areFiltersVisible"
-        >{{ t(`filters.${areFiltersVisible ? "hide" : "show"}`) }}</Button
+        >{{ $t(`filters.${areFiltersVisible ? "hide" : "show"}`) }}</Button
       >
       <Filters
         v-if="areFiltersVisible"
@@ -47,7 +47,6 @@ import Button from "primevue/button";
 import router from "@/routes";
 import { useStore } from "vuex";
 import { AppState, Filter } from "@/store/types";
-import { useI18n } from "vue-i18n";
 import Filters from "../Filters";
 import { BREAKPOINT_MD } from "@/static/breakpoints.config";
 import SortingDropdown from "../SortingDropdown";
@@ -113,7 +112,6 @@ export default defineComponent({
       addRecipe,
       removeRecipe,
       searchRecipe,
-      ...useI18n(),
     };
   },
 });

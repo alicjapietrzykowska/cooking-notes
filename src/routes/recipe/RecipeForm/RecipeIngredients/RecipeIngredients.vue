@@ -2,7 +2,7 @@
   <div>
     <div class="p-inputgroup p-mb-2">
       <InputText
-        :placeholder="t('ingredients.add')"
+        :placeholder="$t('ingredients.add')"
         v-model.trim="ingredient"
       />
       <Button
@@ -15,7 +15,7 @@
       v-model="selectedIngredients"
       :options="ingredients"
       optionLabel="name"
-      :placeholder="t('ingredients.select')"
+      :placeholder="$t('ingredients.select')"
       :filter="true"
       @change="updateForm"
       display="chip"
@@ -25,7 +25,7 @@
           <div>{{ slotProps.option.name }}</div>
           <Button
             @click.stop="confirmDelete(slotProps.option)"
-            :title="t('ingredients.delete')"
+            :title="$t('ingredients.delete')"
             icon="pi pi-times"
             class="p-button-rounded p-button-danger p-button-text"
           />
@@ -41,7 +41,7 @@
         ingredientToDelete = undefined;
       "
       @confirm="deleteIngredient"
-      :text="t('ingredients.deleteIngredientText')"
+      :text="$t('ingredients.deleteIngredientText')"
     />
   </div>
 </template>
@@ -61,7 +61,6 @@ import Button from "primevue/button";
 import { Recipe, AppState, NameId } from "@/store/types";
 import { useStore } from "vuex";
 import { v4 as uuidv4 } from "uuid";
-import { useI18n } from "vue-i18n";
 import { ConfirmDialog } from "@/components";
 
 export default defineComponent({
@@ -165,7 +164,6 @@ export default defineComponent({
       confirmDelete,
       deleteIngredient,
       showConfirmDialog,
-      ...useI18n(),
     };
   },
 });

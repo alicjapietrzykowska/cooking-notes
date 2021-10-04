@@ -5,7 +5,7 @@
       type="text"
       v-model.trim="searchQuery"
       @keyup="$emit('search', searchQuery)"
-      :placeholder="t('common.search')"
+      :placeholder="$t('common.search')"
     />
   </span>
 </template>
@@ -13,7 +13,6 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import InputText from "primevue/inputtext";
-import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: {
@@ -22,7 +21,7 @@ export default defineComponent({
   emits: ["search"],
   setup() {
     const searchQuery = ref("");
-    return { searchQuery, ...useI18n() };
+    return { searchQuery };
   },
 });
 </script>

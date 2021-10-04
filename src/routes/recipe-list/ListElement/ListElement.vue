@@ -3,7 +3,7 @@
     <div>
       <h3>{{ recipe?.name }}</h3>
       <div class="p-mb-2 p-d-md-flex" v-if="rating">
-        <span class="p-text-bold p-mr-2">{{ t("recipe.rating") }}:</span>
+        <span class="p-text-bold p-mr-2">{{ $t("recipe.rating") }}:</span>
         <Rating
           class="p-d-sm-inline p-mt-1 p-mt-md-0"
           v-model="rating"
@@ -13,23 +13,23 @@
         />
       </div>
       <div class="p-mb-2">
-        <span class="p-text-bold">{{ t("recipe.lastUsed") }}: </span>
-        <span v-if="recipe.lastUsed">{{ d(recipe.lastUsed, "short") }}</span>
-        <span v-else>{{ t("common.unknown") }}</span>
+        <span class="p-text-bold">{{ $t("recipe.lastUsed") }}: </span>
+        <span v-if="recipe.lastUsed">{{ $d(recipe.lastUsed, "short") }}</span>
+        <span v-else>{{ $t("common.unknown") }}</span>
       </div>
       <div class="p-mb-2">
-        <span class="p-text-bold">{{ t("recipe.sourceLabel") }}: </span>
+        <span class="p-text-bold">{{ $t("recipe.sourceLabel") }}: </span>
         <a
           v-if="recipeSource === 'link'"
           :href="`https://${recipe.recipeUrl}`"
           target="_blank"
         >
-          <Badge :value="t('recipe.source.' + recipeSource)" class="p-mr-2" />
+          <Badge :value="$t('recipe.source.' + recipeSource)" class="p-mr-2" />
         </a>
         <Badge
           v-else
           :severity="recipeSource === 'book' ? 'success' : 'warning'"
-          :value="t('recipe.source.' + recipeSource)"
+          :value="$t('recipe.source.' + recipeSource)"
           class="p-mr-2"
           v-tooltip="recipe.bookTitle || recipe.comment"
         />
@@ -39,14 +39,14 @@
       <router-link :to="{ name: 'recipe', params: { id: recipe.id } }">
         <Button
           icon="pi pi-info"
-          :title="t('recipe.details')"
+          :title="$t('recipe.details')"
           class="settings-button p-button-rounded p-button-outlined"
         />
       </router-link>
       <router-link :to="{ name: 'edit-recipe', params: { id: recipe.id } }">
         <Button
           icon="pi pi-pencil"
-          :title="t('recipe.edit')"
+          :title="$t('recipe.edit')"
           class="
             settings-button
             p-button-rounded p-button-warning p-button-outlined
@@ -55,7 +55,7 @@
       </router-link>
       <Button
         icon="pi pi-trash"
-        :title="t('recipe.delete')"
+        :title="$t('recipe.delete')"
         class="
           settings-button
           p-button-rounded p-button-danger p-button-outlined
@@ -68,7 +68,7 @@
       v-model:visible="showConfirmDialog"
       @close="showConfirmDialog = false"
       @confirm="deleteRecipe"
-      :text="t('recipe.deleteRecipeText')"
+      :text="$t('recipe.deleteRecipeText')"
     />
   </div>
 </template>
@@ -78,7 +78,6 @@ import { defineComponent, PropType, ref } from "vue";
 import Button from "primevue/button";
 import { SourceKey, Recipe } from "@/store/types";
 import { ConfirmDialog } from "@/components";
-import { useI18n } from "vue-i18n";
 import Badge from "primevue/badge";
 import Tooltip from "primevue/tooltip";
 import { RATING_MAX } from "@/static/data.config";
@@ -117,7 +116,6 @@ export default defineComponent({
       deleteRecipe,
       rating,
       RATING_MAX,
-      ...useI18n(),
     };
   },
 });

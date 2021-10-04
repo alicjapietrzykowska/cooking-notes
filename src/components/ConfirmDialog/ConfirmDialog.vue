@@ -6,13 +6,13 @@
     </div>
     <template #footer>
       <Button
-        :label="t('common.cancel')"
+        :label="$t('common.cancel')"
         icon="pi pi-times"
         @click="$emit('close')"
         class="p-button-text"
       />
       <Button
-        :label="t('common.confirm')"
+        :label="$t('common.confirm')"
         icon="pi pi-check"
         @click="$emit('confirm')"
         class="p-button-text"
@@ -27,7 +27,6 @@ import { defineComponent } from "vue";
 import Button from "primevue/button";
 import Dialog from "primevue/dialog";
 import { i18n } from "@/i18n";
-import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   components: {
@@ -45,11 +44,6 @@ export default defineComponent({
     },
   },
   emits: ["close", "confirm"],
-  setup() {
-    return {
-      ...useI18n(),
-    };
-  },
 });
 </script>
 
