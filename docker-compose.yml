@@ -1,0 +1,8 @@
+version: '3'
+services:
+  cooking-notes:
+    build: ./
+    image: cooking-notes-docker
+    ports:
+      - "8080:8080"
+    container_name: cooking-notes-container
