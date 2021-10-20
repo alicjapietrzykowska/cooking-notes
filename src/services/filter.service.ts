@@ -17,7 +17,6 @@ export function manageActiveFilters(payload: Filter, activeFilters: Filter[]) {
   }
 }
 
-
 function filterBySearch(searchQuery: string, recipeList: Recipe[]) {
     return recipeList.filter(recipe => recipe.name.toLowerCase().includes(searchQuery))
 }
@@ -46,8 +45,5 @@ export function filterRecipeList(activeFilters: Filter[], recipeList: Recipe[]) 
         filteredRecipes = filterBySource(value as SourceKey[], filteredRecipes)
     }
   })
-  // if there are results return them
-  if (filteredRecipes.length) return filteredRecipes
-  // else return empty list and show communicate about no results
-  else return []
+  return filteredRecipes
 }

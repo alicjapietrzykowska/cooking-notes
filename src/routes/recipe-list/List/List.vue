@@ -11,10 +11,7 @@
         @click="areFiltersVisible = !areFiltersVisible"
         >{{ $t(`filters.${areFiltersVisible ? "hide" : "show"}`) }}</Button
       >
-      <Filters
-        v-if="areFiltersVisible"
-        @is-filtered="isListFiltered = $event"
-      />
+      <Filters v-if="areFiltersVisible" />
     </div>
 
     <div class="p-col">
@@ -65,7 +62,7 @@ export default defineComponent({
     const recipes = computed(() => store.state.filteredRecipeList);
     const user = computed(() => store.state.user);
     const searchPhrase = ref("");
-    const isListFiltered = ref(false);
+    const isListFiltered = computed(() => !!store.state.activeFilters.length);
     const areFiltersVisible = ref(false);
 
     const addRecipe = () => {
