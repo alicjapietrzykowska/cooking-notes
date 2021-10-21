@@ -38,17 +38,15 @@ export default defineComponent({
       type: String,
       required: false,
     },
-    isFiltered: {
-      type: Boolean,
-      required: false,
-    },
   },
   setup() {
     const store = useStore<AppState>();
     const isLoggedIn = computed(() => !!store.state.user);
+    const isFiltered = computed(() => !!store.state.activeFilters.length);
 
     return {
       isLoggedIn,
+      isFiltered,
     };
   },
 });

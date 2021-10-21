@@ -22,7 +22,7 @@ export const sourceFilterMock: Filter = {
   value: ["other"],
 };
 
-export const allFiltersMock: Filter[] = [
+export const activeFiltersMock: Filter[] = [
   {
     filterType: "search",
     value: "second",

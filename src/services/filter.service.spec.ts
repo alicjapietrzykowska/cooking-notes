@@ -3,11 +3,170 @@ import {
   recipesMock,
   searchFilterMock,
 } from "./filters.service.mock";
-import { filterRecipeList } from "@/services/filter.service";
-import { sourceFilterMock, allFiltersMock } from "./filters.service.mock";
+import {
+  filterRecipeList,
+  manageActiveFilters,
+} from "@/services/filter.service";
+import { sourceFilterMock, activeFiltersMock } from "./filters.service.mock";
 import { Recipe, Filter } from "@/store/types";
 
 describe("filter.service.ts", () => {
+  describe("manageActiveFilters", () => {
+    describe("activeFilters contains filter of the same type", () => {
+      it("should update value of activeFilterOfType with the value of the new filter", () => {
+        const expected: Filter[] = [
+          {
+            filterType: "search",
+            value: "second",
+          },
+          {
+            filterType: "ingredients",
+            value: [
+              {
+                name: "milk",
+                id: "04",
+              },
+              {
+                name: "flour",
+                id: "05",
+              },
+            ],
+          },
+          {
+            filterType: "source",
+            value: ["other", "book"],
+          },
+        ];
+
+        const out = manageActiveFilters(
+          ingredientFilterMock,
+          activeFiltersMock
+        );
+
+        expect(out).toEqual(expected);
+      });
+      it("should remove search filter from activeFilters if the new search filter has no value", () => {
+        const expected: Filter[] = [
+          {
+            filterType: "ingredients",
+            value: [
+              {
+                name: "potato",
+                id: "01",
+              },
+              {
+                name: "milk",
+                id: "04",
+              },
+              {
+                name: "flour",
+                id: "05",
+              },
+            ],
+          },
+          {
+            filterType: "source",
+            value: ["other", "book"],
+          },
+        ];
+        const emptySearchFilter: Filter = {
+          filterType: "search",
+          value: "",
+        };
+
+        const out = manageActiveFilters(emptySearchFilter, activeFiltersMock);
+
+        expect(out).toStrictEqual(expected);
+      });
+
+      it("should remove ingredients filter from activeFilters if the new ingredient filter has no value", () => {
+        const expected: Filter[] = [
+          {
+            filterType: "search",
+            value: "second",
+          },
+          {
+            filterType: "source",
+            value: ["other", "book"],
+          },
+        ];
+        const emptyIngredientsFilter: Filter = {
+          filterType: "ingredients",
+          value: [],
+        };
+
+        const out = manageActiveFilters(
+          emptyIngredientsFilter,
+          activeFiltersMock
+        );
+
+        expect(out).toEqual(expected);
+      });
+      it("should remove source filter from activeFilters if the new source filter has no value", () => {
+        const expected: Filter[] = [
+          {
+            filterType: "search",
+            value: "second",
+          },
+          {
+            filterType: "ingredients",
+            value: [
+              {
+                name: "potato",
+                id: "01",
+              },
+              {
+                name: "milk",
+                id: "04",
+              },
+              {
+                name: "flour",
+                id: "05",
+              },
+            ],
+          },
+        ];
+        const emptySourceFilter: Filter = {
+          filterType: "source",
+          value: [],
+        };
+
+        const out = manageActiveFilters(emptySourceFilter, activeFiltersMock);
+
+        expect(out).toEqual(expected);
+      });
+    });
+    describe("activeFilters do not contain filter of the same type", () => {
+      it("should return a list only with the provided filter", () => {
+        const out = manageActiveFilters(searchFilterMock, []);
+        const expected = [searchFilterMock];
+
+        expect(out).toEqual(expected);
+      });
+      it("should add the provided filter to the list of active filters", () => {
+        const activeFilters: Filter[] = [
+          {
+            filterType: "source",
+            value: ["other", "book"],
+          },
+        ];
+        const expected = [
+          {
+            filterType: "source",
+            value: ["other", "book"],
+          },
+          {
+            filterType: "search",
+            value: "first",
+          },
+        ];
+
+        const out = manageActiveFilters(searchFilterMock, activeFilters);
+
+        expect(out).toEqual(expected);
+      });
+    });
+  });
   describe("filterRecipeList", () => {
     it("should return undefined when the list of active filters is empty", () => {
       const out = filterRecipeList([], recipesMock);
@@ -171,7 +330,7 @@ describe("filter.service.ts", () => {
         },
       ];
 
-      const out = filterRecipeList(allFiltersMock, recipesMock);
+      const out = filterRecipeList(activeFiltersMock, recipesMock);
 
       expect(out).toEqual(expected);
     });

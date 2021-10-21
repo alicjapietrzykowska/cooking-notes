@@ -26,11 +26,7 @@
           @remove-element="removeRecipe"
         />
       </div>
-      <NotFound
-        v-else
-        :isFiltered="isListFiltered"
-        :searchPhrase="searchPhrase"
-      />
+      <NotFound v-else :searchPhrase="searchPhrase" />
     </div>
   </div>
 </template>
@@ -62,7 +58,6 @@ export default defineComponent({
     const recipes = computed(() => store.state.filteredRecipeList);
     const user = computed(() => store.state.user);
     const searchPhrase = ref("");
-    const isListFiltered = computed(() => !!store.state.activeFilters.length);
     const areFiltersVisible = ref(false);
 
     const addRecipe = () => {
@@ -104,7 +99,6 @@ export default defineComponent({
       user,
       recipes,
       searchPhrase,
-      isListFiltered,
       areFiltersVisible,
       addRecipe,
       removeRecipe,

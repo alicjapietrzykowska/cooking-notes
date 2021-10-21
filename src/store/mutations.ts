@@ -29,9 +29,7 @@ export const mutations: MutationTree<AppState> = {
   },
   filterList(state, payload: Filter) {
     if (!state.recipeList?.length) return;
-    state.activeFilters = manageActiveFilters(payload, [
-      ...state.activeFilters,
-    ]);
+    state.activeFilters = manageActiveFilters(payload, state.activeFilters);
     state.filteredRecipeList =
       filterRecipeList(state.activeFilters, state.recipeList) ||
       state.recipeList;
