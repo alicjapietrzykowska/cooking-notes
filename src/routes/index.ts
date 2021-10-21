@@ -1,40 +1,41 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { i18n } from "@/i18n";
-import PageNotFound from './not-found';
+import PageNotFound from "./not-found";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
+    path: "/cooking-notes/",
     name: "list",
     component: () => import("./recipe-list/List"),
-
   },
   {
-    path: "/recipe/:id",
+    path: "/cooking-notes/recipe/:id",
     name: "recipe",
-    meta: { title: i18n.global.t('routes.details') },
+    meta: { title: i18n.global.t("routes.details") },
     component: () => import("./recipe/Recipe"),
   },
   {
-    path: "/recipe/add",
+    path: "/cooking-notes/recipe/add",
     name: "add-recipe",
-    meta: { title: i18n.global.t('routes.add') },
+    meta: { title: i18n.global.t("routes.add") },
 
-    component: () =>
-      import("./recipe/RecipeForm"),
+    component: () => import("./recipe/RecipeForm"),
   },
   {
-    path: "/recipe/edit/:id",
+    path: "/cooking-notes/recipe/edit/:id",
     name: "edit-recipe",
-    meta: { title: i18n.global.t('routes.edit') },
-    component: () =>
-      import("./recipe/RecipeForm"),
+    meta: { title: i18n.global.t("routes.edit") },
+    component: () => import("./recipe/RecipeForm"),
   },
-  { 
-    path: '/:pathMatch(.*)*',
+  {
+    path: "/",
+    redirect: { name: "list" },
+  },
+  {
+    path: "/cooking-notes/:pathMatch(.*)*",
     name: "not-found",
-    component: PageNotFound
-  }
+    component: PageNotFound,
+  },
 ];
 
 const router = createRouter({
@@ -42,12 +43,13 @@ const router = createRouter({
   routes,
 });
 
-const DEFAULT_TITLE = i18n.global.t('app.name');
+const DEFAULT_TITLE = i18n.global.t("app.name");
 
 router.beforeEach((to) => {
-    const routeTitle = to.meta.title ? `${to.meta.title} - ${DEFAULT_TITLE}` : DEFAULT_TITLE;
-    document.title = routeTitle;
-
-})
+  const routeTitle = to.meta.title
+    ? `${to.meta.title} - ${DEFAULT_TITLE}`
+    : DEFAULT_TITLE;
+  document.title = routeTitle;
+});
 
 export default router;
