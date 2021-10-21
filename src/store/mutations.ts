@@ -1,7 +1,10 @@
 import { MutationTree } from "vuex";
-import { AppState, Recipe, NameId, Filter, SortOption } from './types';
+import { AppState, Recipe, NameId, Filter, SortOption } from "./types";
 import Firebase from "firebase/app";
-import { filterRecipeList, manageActiveFilters } from "@/services/filter.service";
+import {
+  filterRecipeList,
+  manageActiveFilters,
+} from "@/services/filter.service";
 
 export const mutations: MutationTree<AppState> = {
   updateRecipesList(state, payload: Recipe[]) {
@@ -16,24 +19,31 @@ export const mutations: MutationTree<AppState> = {
   },
   updateUser(state, payload: Firebase.User | undefined | null) {
     if (!payload) {
-      state.user = undefined
+      state.user = undefined;
     } else {
       state.user = {
         uid: payload.uid,
-        email: payload.email
-      }
+        email: payload.email,
+      };
     }
   },
-  filterList(state, payload: Filter) {    
-    state.activeFilters = manageActiveFilters(payload, [...state.activeFilters])
-    state.filteredRecipeList = filterRecipeList(state.activeFilters, state.recipeList) || state.recipeList
+  filterList(state, payload: Filter) {
+    if (!state.recipeList?.length) return;
+    state.activeFilters = manageActiveFilters(payload, state.activeFilters);
+    state.filteredRecipeList =
+      filterRecipeList(state.activeFilters, state.recipeList) ||
+      state.recipeList;
   },
   sortRecipeList(state, payload: SortOption) {
-    const field = payload.id
-    const sortedRecipeList = state.filteredRecipeList.sort((a, b) => String(a[field]).localeCompare(String(b[field])))
-    state.filteredRecipeList = payload.order === 'ASC' ? sortedRecipeList : sortedRecipeList.reverse()
+    if (!state.recipeList?.length) return;
+    const field = payload.id;
+    const sortedRecipeList = state.filteredRecipeList.sort((a, b) =>
+      String(a[field]).localeCompare(String(b[field]))
+    );
+    state.filteredRecipeList =
+      payload.order === "ASC" ? sortedRecipeList : sortedRecipeList.reverse();
   },
   updateIsLoading(state, payload: boolean) {
-    state.isLoading = payload
-  }
+    state.isLoading = payload;
+  },
 };

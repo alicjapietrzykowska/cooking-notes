@@ -52,8 +52,7 @@ export default defineComponent({
     ConfirmDialog,
     Button,
   },
-  emits: ["is-filtered"],
-  setup(props, { emit }) {
+  setup() {
     const store = useStore<AppState>();
     const user = computed(() => store.state.user);
     const ingredients = computed(() => store.state.ingredientsList || []);
@@ -62,7 +61,6 @@ export default defineComponent({
     const sources: SourceKey[] = ["link", "book", "other"];
 
     const filterByIngredients = () => {
-      emit("is-filtered", true);
       const filter: Filter = {
         value: selectedIngredients.value,
         filterType: "ingredients",
@@ -71,7 +69,6 @@ export default defineComponent({
     };
 
     const filterBySource = () => {
-      emit("is-filtered", true);
       const filter: Filter = {
         value: selectedSources.value,
         filterType: "source",

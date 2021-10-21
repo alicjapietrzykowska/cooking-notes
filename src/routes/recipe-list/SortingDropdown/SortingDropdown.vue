@@ -65,6 +65,7 @@ export default defineComponent({
         dynamicOptions.push(option);
         dynamicOptions.push(alternativeOption);
       });
+
       return dynamicOptions;
     });
 
