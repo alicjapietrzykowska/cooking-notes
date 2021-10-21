@@ -108,7 +108,7 @@ export default defineComponent({
       name: "",
       notes: "",
       rating: 1,
-      source: "other",
+      source: "link",
       ingredients: [],
     });
     const allIngredients = ref([]);
