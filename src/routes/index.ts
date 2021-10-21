@@ -27,10 +27,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: { title: i18n.global.t("routes.edit") },
     component: () => import("./recipe/RecipeForm"),
   },
-  {
-    path: "/",
-    redirect: { name: "list" },
-  },
+  { path: "/", redirect: { name: "list" } },
   {
     path: "/cooking-notes/:pathMatch(.*)*",
     name: "not-found",
