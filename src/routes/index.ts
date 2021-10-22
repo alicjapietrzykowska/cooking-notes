@@ -9,24 +9,32 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("./recipe-list/List"),
   },
   {
-    path: "/cooking-notes/recipe/:id",
-    name: "recipe",
-    meta: { title: i18n.global.t("routes.details") },
-    component: () => import("./recipe/Recipe"),
-  },
-  {
-    path: "/cooking-notes/recipe/add",
-    name: "add-recipe",
-    meta: { title: i18n.global.t("routes.add") },
+    path: "/cooking-notes/recipe",
+    component: () => import("./recipe"),
+    children: [
+      {
+        path: ":id",
+        name: "recipe",
+        meta: { title: i18n.global.t("routes.details") },
+        component: () => import("./recipe/Recipe"),
+      },
+      {
+        path: "add",
+        name: "add-recipe",
+        meta: { title: i18n.global.t("routes.add") },
 
-    component: () => import("./recipe/RecipeForm"),
+        component: () => import("./recipe/RecipeForm"),
+      },
+      {
+        path: "edit/:id",
+        name: "edit-recipe",
+        meta: { title: i18n.global.t("routes.edit") },
+        component: () => import("./recipe/RecipeForm"),
+      },
+      { path: ":pathMatch(.*)*", redirect: { name: "list" } },
+    ],
   },
-  {
-    path: "/cooking-notes/recipe/edit/:id",
-    name: "edit-recipe",
-    meta: { title: i18n.global.t("routes.edit") },
-    component: () => import("./recipe/RecipeForm"),
-  },
+
   { path: "/", redirect: { name: "list" } },
   {
     path: "/cooking-notes/:pathMatch(.*)*",

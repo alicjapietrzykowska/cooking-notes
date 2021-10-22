@@ -108,7 +108,8 @@ export default defineComponent({
 
     const manageNewIngredient = () => {
       const savedIngredient = ingredients.value.find(
-        (savedIngredient) => savedIngredient.name === ingredient.value
+        (savedIngredient) =>
+          savedIngredient.name.toLowerCase() === ingredient.value.toLowerCase()
       );
       if (savedIngredient) {
         selectedIngredients.value.push(savedIngredient);
