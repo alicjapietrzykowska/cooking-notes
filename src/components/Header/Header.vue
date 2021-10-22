@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1>{{ $t("app.name") }}</h1>
+    <h1 @click="$router.push({ name: 'list' })">{{ $t("app.name") }}</h1>
     <div class="buttons-wrapper">
       <template v-if="!isLoggedIn">
         <Button
@@ -83,6 +83,7 @@ header {
     line-height: 1;
     z-index: 100;
     text-align: center;
+    cursor: pointer;
 
     @include breakpoint-max-md {
       font-size: 3em;

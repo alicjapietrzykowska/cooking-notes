@@ -27,7 +27,7 @@
           </div>
           <div v-if="recipe.source === 'link'" class="recipe-row">
             <label> {{ $t("recipe.url") }}: </label>
-            <a :href="`https://${recipe.recipeUrl}`" target="_blank">
+            <a :href="recipe.recipeUrl" target="_blank">
               {{ recipe.recipeUrl }}
             </a>
           </div>
@@ -52,14 +52,21 @@
         </div>
         <div class="p-col-12 recipe-row p-mt-3">
           <label class="p-d-block p-mb-1">{{ $t("recipe.notes") }}:</label>
-          <div>{{ recipe.notes }}</div>
+          <div class="notes">{{ recipe.notes }}</div>
         </div>
       </div>
     </template>
     <template #footer>
-      <router-link :to="{ name: 'list' }">
-        <Button :label="$t('common.back')" />
-      </router-link>
+      <Button
+        class="p-mr-3"
+        @click="$router.push({ name: 'edit-recipe', id: recipeId })"
+        :label="$t('recipe.edit')"
+      />
+      <Button
+        class="p-button-outlined p-button-secondary"
+        @click="$router.go(-1)"
+        :label="$t('common.back')"
+      />
     </template>
   </Card>
 </template>
@@ -116,6 +123,10 @@ export default defineComponent({
     label {
       font-weight: bold;
     }
+  }
+
+  .notes {
+    white-space: pre-wrap;
   }
 }
 </style>
