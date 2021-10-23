@@ -94,9 +94,7 @@ export default defineComponent({
       }
     );
     watch(ingredients, () => {
-      if (ingredient.value) {
-        manageNewIngredient();
-      }
+      manageNewIngredient();
     });
 
     const updateForm = () => {
@@ -107,6 +105,9 @@ export default defineComponent({
     };
 
     const manageNewIngredient = () => {
+      //prevent from adding empty ingredient
+      if (!ingredient.value?.length) return;
+
       const savedIngredient = ingredients.value.find(
         (savedIngredient) =>
           savedIngredient.name.toLowerCase() === ingredient.value.toLowerCase()

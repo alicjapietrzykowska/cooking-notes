@@ -32,6 +32,7 @@
           autocomplete="password"
           toggleMask
           :feedback="dialogType === 'register'"
+          @keyup.enter="manageConfirm"
         ></Password>
         <div
           class="validation-error p-mt-2"
@@ -45,17 +46,19 @@
     </form>
     <template #footer>
       <Button
+        type="button"
         :label="$t('common.cancel')"
         @click="$emit('close')"
         class="p-button-outlined"
       />
       <Button
+        type="submit"
         :label="
           dialogType === 'login' ? $t('user.logIn') : $t('user.createAccount')
         "
         :disabled="!isPasswordStrong || !isEmailValid"
-        @click="manageConfirm"
         autofocus
+        @click="manageConfirm"
       />
     </template>
   </Dialog>
