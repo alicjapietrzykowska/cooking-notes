@@ -1,5 +1,8 @@
 # Cooking Notes
-> A small app designed to collect recipes in one place and add your own notes to them. Created using Vue 3 and Firebase.  Live demo [_HERE_](https://alicjalukaszewska.github.io/cooking-notes/)
+> A small app designed to collect recipes in one place and add your own notes to them. Created using Vue 3 and Firebase.
+
+## Demo
+Here is a working https://alicjalukaszewska.github.io/cooking-notes/
 
 ## Features
 - Save custom recipes and ingredients to your account
@@ -14,6 +17,7 @@
 
 ## Technologies Used
 - Vue 3
+- Firebase Authentication
 - Firebase Realtime Database
 - PrimeVue 3
 - Typescript
