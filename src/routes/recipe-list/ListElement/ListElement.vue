@@ -21,7 +21,7 @@
         <span class="p-text-bold">{{ $t("recipe.sourceLabel") }}: </span>
         <a
           v-if="recipeSource === 'link'"
-          :href="`https://${recipe.recipeUrl}`"
+          :href="recipe.recipeUrl"
           target="_blank"
         >
           <Badge :value="$t('recipe.source.' + recipeSource)" class="p-mr-2" />

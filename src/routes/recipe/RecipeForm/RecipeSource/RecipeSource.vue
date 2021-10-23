@@ -19,7 +19,18 @@
     <div v-if="selectedSource.key === 'link'">
       <div class="p-field">
         <label for="url">{{ $t("recipe.url") }}</label>
-        <InputText id="url" type="text" v-model="form.recipeUrl" />
+        <InputText
+          @keyup="validateUrl"
+          id="url"
+          type="url"
+          v-model="form.recipeUrl"
+        />
+        <div
+          class="validation-error p-mt-2"
+          v-if="form.recipeUrl && !isUrlValid"
+        >
+          {{ $t("validation.invalidUrl") }}
+        </div>
       </div>
     </div>
     <div v-if="selectedSource.key === 'book'">
@@ -60,6 +71,7 @@ import InputText from "primevue/inputtext";
 import Textarea from "primevue/textarea";
 import { SourceOption, Recipe, AppState } from "@/store/types";
 import { useStore } from "vuex";
+import { isValidHttpUrl } from "@/services/utils.service";
 
 export default defineComponent({
   components: {
@@ -73,9 +85,10 @@ export default defineComponent({
       required: false,
     },
   },
-  emits: ["update-source"],
+  emits: ["update-source", "is-valid"],
   setup(props, { emit }) {
     const store = useStore<AppState>();
+    const isUrlValid = ref();
     const sourceOptions: Ref<SourceOption[]> = ref([
       {
         name: "Link",
@@ -117,12 +130,18 @@ export default defineComponent({
     watch(recipe, () => {
       Object.assign(form, { ...recipe.value });
       selectedSource.value = getSource();
+      validateUrl();
     });
 
     const changeSource = () => {
       Object.assign(form, {
         source: selectedSource.value.key,
       });
+    };
+
+    const validateUrl = () => {
+      isUrlValid.value = isValidHttpUrl(form.recipeUrl);
+      emit("is-valid", isUrlValid.value);
     };
 
     watch(form, () => {
@@ -133,7 +152,9 @@ export default defineComponent({
       form,
       sourceOptions,
       selectedSource,
+      isUrlValid,
       changeSource,
+      validateUrl,
     };
   },
 });

@@ -1,3 +1,1 @@
-import RecipeForm from "./RecipeForm.vue";
-
-export default RecipeForm;
+export { default } from "./RecipeForm.vue";

@@ -8,11 +8,22 @@
         <div class="p-fluid p-formgrid p-grid">
           <div class="p-field p-col-12">
             <label for="name">{{ $t("recipe.name") }} *</label>
-            <InputText id="name" type="text" v-model="form.name" />
+            <InputText
+              @keyup="checkValidation"
+              id="name"
+              type="text"
+              v-model="form.name"
+            />
+            <div class="validation-error p-mt-2" v-if="!isNameValid">
+              {{ $t("validation.required") }}
+            </div>
           </div>
           <div class="p-field p-col-12 p-md-6">
             <label for="source">{{ $t("recipe.sourceLabel") }}</label>
-            <RecipeSource @update-source="updateForm" />
+            <RecipeSource
+              @is-valid="isSourceValid = $event"
+              @update-source="updateForm"
+            />
           </div>
           <div class="p-field p-col-12 p-md-6">
             <label for="url">{{ $t("recipe.dates") }}</label>
@@ -35,7 +46,7 @@
           </div>
           <div class="p-field p-col-12">
             <label for="notes">{{ $t("recipe.notes") }}</label>
-            <Textarea id="notes" v-model="form.notes" rows="4" />
+            <Textarea id="notes" v-model="form.notes" rows="6" />
           </div>
         </div>
       </form>
@@ -44,15 +55,15 @@
       <Button
         class="p-mr-3"
         type="submit"
-        :disabled="!form.name"
+        :disabled="!isSourceValid || !isNameValid"
         @click="submitForm"
         :label="$t('common.submit')"
       />
       <Button
         type="button"
-        class="p-button p-button-outlined p-button-secondary"
+        class="p-button-outlined p-button-secondary"
         :label="$t('common.back')"
-        @click="backToList"
+        @click="$router.go(-1)"
       />
     </template>
   </Card>
@@ -74,11 +85,10 @@ import Rating from "primevue/rating";
 import Calendar from "primevue/calendar";
 import Button from "primevue/button";
 import Card from "primevue/card";
-import router from "@/routes";
 import RecipeSource from "../RecipeForm/RecipeSource";
 import RecipeIngredients from "./RecipeIngredients";
 import { useStore } from "vuex";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { Recipe, AppState } from "@/store/types";
 import { RATING_MAX } from "@/static/data.config";
 import {
@@ -99,6 +109,7 @@ export default defineComponent({
   setup() {
     const store = useStore<AppState>();
     const route = useRoute();
+    const router = useRouter();
     const recipeId = route.params.id;
     const selectedDates = ref<Date[]>([]);
     const maxInputValue = ref<Date>(new Date());
@@ -112,6 +123,8 @@ export default defineComponent({
       ingredients: [],
     });
     const allIngredients = ref([]);
+    const isSourceValid = ref(true);
+    const isNameValid = ref(true);
 
     const updateForm = (values: Partial<Recipe>) => {
       Object.assign(form, values);
@@ -129,27 +142,29 @@ export default defineComponent({
     };
 
     const submitForm = () => {
+      if (!isSourceValid.value) return;
       if (selectedDates.value.length) {
         form.dates = selectedDatesAsTimestamps();
         form.lastUsed = getTheLargestNumber(form.dates);
       }
       if (recipeId) {
         store.dispatch("updateRecipe", { id: recipeId, ...form });
+        router.push({ name: "recipe", params: { id: recipeId } });
       } else {
         const creationDate = new Date().getTime();
         store.dispatch("createRecipe", { creationDate, ...form });
-        backToList();
+        router.push({ name: "list" });
       }
-    };
-
-    const backToList = () => {
-      router.push({ name: "list" });
     };
 
     const getRecipeDataById = () => {
       if (recipeId) {
         store.dispatch("fetchRecipeById", recipeId);
       }
+    };
+
+    const checkValidation = () => {
+      isNameValid.value = !!form.name;
     };
 
     onMounted(() => {
@@ -168,12 +183,14 @@ export default defineComponent({
       form,
       allIngredients,
       selectedDates,
-      submitForm,
-      backToList,
-      updateForm,
+      isNameValid,
+      isSourceValid,
       recipe,
       RATING_MAX,
       maxInputValue,
+      submitForm,
+      updateForm,
+      checkValidation,
     };
   },
 });
