@@ -20,7 +20,7 @@
       <div class="p-field">
         <label for="url">{{ $t("recipe.url") }}</label>
         <InputText
-          @keyup="validateUrl"
+          @input="validateUrl"
           id="url"
           type="url"
           v-model="form.recipeUrl"
@@ -88,7 +88,7 @@ export default defineComponent({
   emits: ["update-source", "is-valid"],
   setup(props, { emit }) {
     const store = useStore<AppState>();
-    const isUrlValid = ref();
+    const isUrlValid = ref(true);
     const sourceOptions: Ref<SourceOption[]> = ref([
       {
         name: "Link",
@@ -142,12 +142,24 @@ export default defineComponent({
     };
 
     const changeSource = () => {
+      validateUrl();
       const source = {
         source: selectedSource.value.key,
       };
       emit("update-source", source);
-      validateUrl();
     };
+
+    watch(form, () => {
+      const sourceInfo = {
+        source: form.source,
+        recipeUrl: form.recipeUrl,
+        bookTitle: form.bookTitle,
+        bookPage: form.bookPage,
+        bookAuthors: form.bookAuthors,
+        comment: form.comment,
+      };
+      emit("update-source", sourceInfo);
+    });
 
     return {
       form,
