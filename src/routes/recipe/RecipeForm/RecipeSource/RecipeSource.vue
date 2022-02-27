@@ -130,23 +130,24 @@ export default defineComponent({
     watch(recipe, () => {
       Object.assign(form, { ...recipe.value });
       selectedSource.value = getSource();
-      validateUrl();
     });
-
-    const changeSource = () => {
-      Object.assign(form, {
-        source: selectedSource.value.key,
-      });
-    };
 
     const validateUrl = () => {
-      isUrlValid.value = isValidHttpUrl(form.recipeUrl);
-      emit("is-valid", isUrlValid.value);
+      if (selectedSource.value.key !== "link") {
+        emit("is-valid", true);
+      } else {
+        isUrlValid.value = isValidHttpUrl(form.recipeUrl);
+        emit("is-valid", isUrlValid.value);
+      }
     };
 
-    watch(form, () => {
-      emit("update-source", form);
-    });
+    const changeSource = () => {
+      const source = {
+        source: selectedSource.value.key,
+      };
+      emit("update-source", source);
+      validateUrl();
+    };
 
     return {
       form,

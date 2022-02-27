@@ -1,5 +1,5 @@
 <template>
-  <div class="p-card list-element p-mb-3">
+  <div class="p-card list-element p-mb-3" @click="goToRoute('recipe')">
     <div>
       <h3>{{ recipe?.name }}</h3>
       <div class="p-mb-2 p-d-md-flex" v-if="rating">
@@ -21,6 +21,7 @@
         <span class="p-text-bold">{{ $t("recipe.sourceLabel") }}: </span>
         <a
           v-if="recipeSource === 'link'"
+          @click.stop
           :href="recipe.recipeUrl"
           target="_blank"
         >
@@ -36,23 +37,21 @@
       </div>
     </div>
     <div class="settings">
-      <router-link :to="{ name: 'recipe', params: { id: recipe.id } }">
-        <Button
-          icon="pi pi-info"
-          :title="$t('recipe.details')"
-          class="settings-button p-button-rounded p-button-outlined"
-        />
-      </router-link>
-      <router-link :to="{ name: 'edit-recipe', params: { id: recipe.id } }">
-        <Button
-          icon="pi pi-pencil"
-          :title="$t('recipe.edit')"
-          class="
-            settings-button
-            p-button-rounded p-button-warning p-button-outlined
-          "
-        />
-      </router-link>
+      <Button
+        icon="pi pi-info"
+        :title="$t('recipe.details')"
+        @click.stop="goToRoute('recipe')"
+        class="settings-button p-button-rounded p-button-outlined"
+      />
+      <Button
+        icon="pi pi-pencil"
+        :title="$t('recipe.edit')"
+        @click.stop="goToRoute('edit-recipe')"
+        class="
+          settings-button
+          p-button-rounded p-button-warning p-button-outlined
+        "
+      />
       <Button
         icon="pi pi-trash"
         :title="$t('recipe.delete')"
@@ -60,7 +59,7 @@
           settings-button
           p-button-rounded p-button-danger p-button-outlined
         "
-        @click="showConfirmDialog = true"
+        @click.stop="showConfirmDialog = true"
       />
     </div>
     <ConfirmDialog
@@ -82,6 +81,8 @@ import Badge from "primevue/badge";
 import Tooltip from "primevue/tooltip";
 import { RATING_MAX } from "@/static/data.config";
 import Rating from "primevue/rating";
+import { useRouter } from "vue-router";
+import router from "@/routes";
 
 export default defineComponent({
   components: {
@@ -92,8 +93,8 @@ export default defineComponent({
   },
   props: {
     recipe: {
-      required: true,
       type: Object as PropType<Recipe>,
+      required: true,
     },
   },
   directives: {
@@ -110,12 +111,17 @@ export default defineComponent({
       emit("remove-element", props.recipe.id);
     };
 
+    const goToRoute = (routeName: string) => {
+      router.push({ name: routeName, params: { id: props.recipe.id } });
+    };
+
     return {
       showConfirmDialog,
       recipeSource,
       deleteRecipe,
       rating,
       RATING_MAX,
+      goToRoute,
     };
   },
 });
@@ -126,6 +132,7 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   padding: 1rem;
+  cursor: pointer;
 
   h3 {
     margin-top: 0;

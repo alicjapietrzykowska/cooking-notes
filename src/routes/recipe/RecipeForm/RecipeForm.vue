@@ -4,7 +4,7 @@
       {{ recipe ? $t("recipe.edit") : $t("recipe.add") }}
     </template>
     <template #content>
-      <form @submit.prevent="submitForm">
+      <form>
         <div class="p-fluid p-formgrid p-grid">
           <div class="p-field p-col-12">
             <label for="name">{{ $t("recipe.name") }} *</label>
@@ -54,7 +54,7 @@
     <template #footer>
       <Button
         class="p-mr-3"
-        type="submit"
+        type="button"
         :disabled="!isSourceValid || !isNameValid"
         @click="submitForm"
         :label="$t('common.submit')"
@@ -132,6 +132,7 @@ export default defineComponent({
 
     watch(recipe, () => {
       if (!recipe.value) return;
+
       updateForm(recipe.value);
       if (recipe.value.dates?.length)
         selectedDates.value = timestampsToDates(recipe.value.dates);
