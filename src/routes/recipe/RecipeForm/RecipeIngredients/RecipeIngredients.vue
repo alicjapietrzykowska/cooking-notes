@@ -7,6 +7,7 @@
       />
       <Button
         @click="manageNewIngredient"
+        type="button"
         icon="pi pi-plus"
         class="p-button-primary"
       />
@@ -25,6 +26,7 @@
           <div>{{ slotProps.option.name }}</div>
           <Button
             @click.stop="confirmDelete(slotProps.option)"
+            type="button"
             :title="$t('ingredients.delete')"
             icon="pi pi-times"
             class="p-button-rounded p-button-danger p-button-text"
@@ -93,9 +95,6 @@ export default defineComponent({
         selectedIngredients.value = props.recipe.ingredients;
       }
     );
-    watch(ingredients, () => {
-      manageNewIngredient();
-    });
 
     const updateForm = () => {
       const chosenIngredients = {
@@ -122,6 +121,7 @@ export default defineComponent({
           name: ingredient.value,
         };
         store.dispatch("createIngredient", newIngredient);
+        manageNewIngredient();
       }
     };
 
