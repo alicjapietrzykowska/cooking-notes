@@ -3,8 +3,8 @@ import App from "./App.vue";
 import router from "./routes";
 import store from "./store";
 import PrimeVue from "primevue/config";
-import ToastService from 'primevue/toastservice';
-import { i18n } from './i18n';
+import ToastService from "primevue/toastservice";
+import { i18n } from "./i18n";
 
 createApp(App)
   .use(store)

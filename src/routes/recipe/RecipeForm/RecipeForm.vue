@@ -78,6 +78,7 @@ import {
   onMounted,
   watch,
   onUnmounted,
+  watchEffect,
 } from "vue";
 import InputText from "primevue/inputtext";
 import Textarea from "primevue/textarea";
@@ -128,14 +129,14 @@ export default defineComponent({
 
     const updateForm = (values: Partial<Recipe>) => {
       Object.assign(form, values);
+      if (values.dates?.length)
+        selectedDates.value = timestampsToDates(values.dates);
     };
 
-    watch(recipe, () => {
+    watchEffect(() => {
       if (!recipe.value) return;
 
       updateForm(recipe.value);
-      if (recipe.value.dates?.length)
-        selectedDates.value = timestampsToDates(recipe.value.dates);
     });
 
     const selectedDatesAsTimestamps = () => {
