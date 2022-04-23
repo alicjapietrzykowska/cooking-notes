@@ -1,10 +1,12 @@
-import { MutationTree, Store } from "vuex";
+import { MutationTree } from "vuex";
 import { AppState, Recipe, NameId, Filter, SortOption } from "./types";
 import Firebase from "firebase/app";
+import { getDefaultState } from "./state";
 import {
   filterRecipeList,
   manageActiveFilters,
 } from "@/services/filter.service";
+import store from ".";
 
 export const mutations: MutationTree<AppState> = {
   updateRecipesList(state, payload: Recipe[]) {
@@ -62,5 +64,8 @@ export const mutations: MutationTree<AppState> = {
   },
   updateIsLoading(state, payload: boolean) {
     state.isLoading = payload;
+  },
+  resetState() {
+    store.replaceState({ ...getDefaultState() });
   },
 };

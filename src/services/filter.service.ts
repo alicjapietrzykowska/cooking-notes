@@ -1,6 +1,9 @@
 import { Filter, Recipe, SourceKey, NameId } from "@/store/types";
 
-export function manageActiveFilters(payload: Filter, activeFilters: Filter[]) {
+export function manageActiveFilters(
+  payload: Filter,
+  activeFilters: Filter[] = []
+) {
   const activeFilterOfType = activeFilters.find(
     (filter) => filter.filterType === payload.filterType
   );

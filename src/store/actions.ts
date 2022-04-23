@@ -55,9 +55,10 @@ export const actions: ActionTree<AppState, AppState> = {
       });
   },
 
-  logOutUser() {
+  logOutUser({ commit }) {
     router.push({ name: "list" });
     auth.signOut();
+    commit("resetState");
   },
 
   checkUser({ commit }) {
@@ -89,7 +90,7 @@ export const actions: ActionTree<AppState, AppState> = {
       commit("updateRecipesList", state.recipeList);
       commit("updateIsLoading", false);
     } else {
-      commit("updateRecipesList", undefined);
+      commit("updateRecipesList", []);
       commit("updateIsLoading", false);
     }
   },

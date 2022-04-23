@@ -1,10 +1,10 @@
 <template>
   <Card class="not-found">
     <template #content>
-      <div v-if="isLoggedIn && searchPhrase">
+      <div v-if="searchPhrase">
         <h3>{{ $t("common.notFoundPhrase", { phrase: searchPhrase }) }}</h3>
       </div>
-      <div v-else-if="isLoggedIn && isFiltered">
+      <div v-else-if="isFiltered">
         <h3>{{ $t("common.notFoundFilters") }}</h3>
       </div>
       <div v-else-if="isLoggedIn">
