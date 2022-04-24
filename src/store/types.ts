@@ -4,13 +4,13 @@ export interface AppState {
   recipeList: Recipe[];
   filteredRecipeList: Recipe[];
   ingredientsList: NameId[];
-  activeFilters: Filter[],
-  isLoading: boolean
+  activeFilters: Filter[];
+  isLoading: boolean;
 }
 
 export interface Credentials {
-  email: string,
-  password: string
+  email: string;
+  password: string;
 }
 
 export interface User {
@@ -42,6 +42,7 @@ export interface Recipe {
   bookPage: string;
   bookAuthors: string;
   comment: string;
+  localRecipe?: boolean;
 }
 
 export interface SourceOption {
@@ -51,15 +52,15 @@ export interface SourceOption {
 
 export type SourceKey = "link" | "book" | "other";
 
-export type LoginDialogType = 'login' | 'register'
+export type LoginDialogType = "login" | "register";
 
 export interface Filter {
-  filterType: 'search' | 'ingredients' | 'source', 
-  value: NameId[] | SourceKey[] | string
+  filterType: "search" | "ingredients" | "source";
+  value: NameId[] | SourceKey[] | string;
 }
 
 export interface SortOption {
-  id: keyof Recipe,
-  name: string,
-  order: 'ASC' | 'DESC'
+  id: keyof Recipe;
+  name: string;
+  order: "ASC" | "DESC";
 }

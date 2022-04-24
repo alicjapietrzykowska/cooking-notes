@@ -70,14 +70,26 @@ export const actions: ActionTree<AppState, AppState> = {
     });
   },
 
-  fetchRecipes({ state, commit }) {
+  manageLocalRecipes({ state, dispatch, commit }) {
+    const localRecipes = state.recipeList.filter(
+      (recipe) => recipe.localRecipe
+    );
+    console.log({ localRecipes });
+    if (!localRecipes.length) return;
+    localRecipes.forEach((recipe) => {
+      dispatch("createRecipe", { ...recipe, localRecipe: false });
+    });
+  },
+
+  fetchRecipes({ state, commit, dispatch }) {
     const userId = state.user?.uid;
     commit("updateIsLoading", true);
     if (userId) {
+      dispatch("manageLocalRecipes");
       recipesRef.child(userId).on(
         "value",
         function (snapshot) {
-          const data = snapshotToArray(snapshot);
+          const data: Recipe[] = snapshotToArray(snapshot);
           commit("updateRecipesList", data);
           commit("updateIsLoading", false);
         },
@@ -101,7 +113,7 @@ export const actions: ActionTree<AppState, AppState> = {
       recipesRef.child(userId).push(payload);
     } else {
       const recipeList = state.recipeList || [];
-      const newRecipe = { ...payload, id: getRandomId() };
+      const newRecipe = { ...payload, id: getRandomId(), localRecipe: true };
       commit("updateRecipesList", [...recipeList, newRecipe]);
     }
     showToast({
