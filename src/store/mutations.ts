@@ -36,6 +36,12 @@ export const mutations: MutationTree<AppState> = {
     state.ingredientsList = payload;
   },
 
+  removeIngredient(state, payload: string) {
+    state.ingredientsList = state.ingredientsList.filter(
+      (recipe) => recipe.id !== payload
+    );
+  },
+
   updateUser(state, payload: Firebase.User | undefined | null) {
     if (!payload) {
       state.user = undefined;

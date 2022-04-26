@@ -74,7 +74,6 @@ export const actions: ActionTree<AppState, AppState> = {
     const localRecipes = state.recipeList.filter(
       (recipe) => recipe.localRecipe
     );
-    console.log({ localRecipes });
     if (!localRecipes.length) return;
     localRecipes.forEach((recipe) => {
       dispatch("createRecipe", { ...recipe, localRecipe: false });
@@ -211,10 +210,13 @@ export const actions: ActionTree<AppState, AppState> = {
     }
   },
 
-  removeIngredient({ state }, ingredientId: string) {
+  removeIngredient({ state, commit }, ingredientId: string) {
     const userId = state.user?.uid;
-    if (!ingredientId || !userId) return;
-    ingredientsRef.child(userId).child(ingredientId).remove();
+    if (userId) {
+      ingredientsRef.child(userId).child(ingredientId).remove();
+    } else {
+      commit("removeIngredient", ingredientId);
+    }
     showToast({
       summary: i18n.global.t("toasts.removedIngredient.summary"),
       detail: i18n.global.t("toasts.removedIngredient.detail"),

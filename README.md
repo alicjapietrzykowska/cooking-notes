@@ -2,16 +2,16 @@
 > A small app designed to collect recipes in one place and add your own notes to them. Created using Vue 3 and Firebase.
 
 ## Demo
-Here is a working https://alicjalukaszewska.github.io/cooking-notes/
+https://alicjalukaszewska.github.io/cooking-notes/
 
 ## Features
-- Save custom recipes and ingredients to your account
+- Save custom recipes and ingredients to your account or the local browser storage
 - Write down where you got the recipe from - internet, book or other source
 - Rate the recipe on a 5-point scale
 - Record when you last used the recipe
 - Add your own notes to the recipe
-- Search for a recipe by name
-- Sort saved recipes by name, rating, and date of use. 
+- Search for a recipe by the name
+- Sort saved recipes by the name, rating, and the date of use. 
 - Filter recipes by ingredients and source
 - View and edit recipes wherever you are using mobile device. 
 
@@ -19,6 +19,7 @@ Here is a working https://alicjalukaszewska.github.io/cooking-notes/
 - Vue 3
 - Firebase Authentication
 - Firebase Realtime Database
+- LocalStorage
 - PrimeVue 3
 - Typescript
 - SCSS

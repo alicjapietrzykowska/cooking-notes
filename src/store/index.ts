@@ -20,7 +20,6 @@ const store = createStore({
 });
 
 store.subscribe((_mutation, state) => {
-  console.log("mutation", _mutation, state);
   localStorage.setItem("store", JSON.stringify(state));
 });
 
