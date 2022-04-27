@@ -13,6 +13,7 @@ export default {
     confirm: "Confirm",
     DESC: "Descending",
     logInToSave: "Log in or register to view recipes on any device.",
+    saveInCurrentDevice: "Or save your recipes only on this device.",
     notFoundFilters: "Cannot find recipes with these filters.",
     notFoundPhrase: 'Cannot find recipes under the phrase: "{phrase}".',
     notLoggedIn: "You're not logged in",

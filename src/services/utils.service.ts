@@ -37,3 +37,7 @@ export function isValidHttpUrl(input: string) {
   );
   return !!pattern.test(input);
 }
+
+export const getRandomId = () => {
+  return "_" + Math.random().toString(36).substr(2, 9);
+};

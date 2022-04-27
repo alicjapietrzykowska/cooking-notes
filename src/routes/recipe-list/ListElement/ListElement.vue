@@ -81,7 +81,6 @@ import Badge from "primevue/badge";
 import Tooltip from "primevue/tooltip";
 import { RATING_MAX } from "@/static/data.config";
 import Rating from "primevue/rating";
-import { useRouter } from "vue-router";
 import router from "@/routes";
 
 export default defineComponent({

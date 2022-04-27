@@ -1,7 +1,7 @@
 <template>
   <div class="p-grid">
     <div class="p-col-12 p-md-3 p-d-flex p-dir-col p-align-center p-mb-3">
-      <Button @click="addRecipe" :disabled="!user" class="p-mb-3 p-mb-md-5">
+      <Button @click="addRecipe" class="p-mb-3 p-mb-md-5">
         {{ $t("recipe.add") }}
       </Button>
 

@@ -1,10 +1,10 @@
 <template>
   <Card class="not-found">
     <template #content>
-      <div v-if="isLoggedIn && searchPhrase">
+      <div v-if="searchPhrase">
         <h3>{{ $t("common.notFoundPhrase", { phrase: searchPhrase }) }}</h3>
       </div>
-      <div v-else-if="isLoggedIn && isFiltered">
+      <div v-else-if="isFiltered">
         <h3>{{ $t("common.notFoundFilters") }}</h3>
       </div>
       <div v-else-if="isLoggedIn">
@@ -16,6 +16,10 @@
       <div v-else>
         <h2>{{ $t("common.notLoggedIn") }}</h2>
         <div>{{ $t("common.logInToSave") }}</div>
+        <div class="p-mb-2 p-mt-4">{{ $t("common.saveInCurrentDevice") }}</div>
+        <router-link :to="{ name: 'add-recipe' }">
+          <Button :label="$t('recipe.addFirstRecipe')" />
+        </router-link>
       </div>
     </template>
   </Card>
