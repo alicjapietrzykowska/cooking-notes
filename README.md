@@ -2,7 +2,7 @@
 > A small app designed to collect recipes in one place and add your own notes to them. Created using Vue 3 and Firebase.
 
 ## Demo
-https://alicjalukaszewska.github.io/cooking-notes/
+https://alicjapietrzykowska.github.io/cooking-notes/
 
 ## Features
 - Save custom recipes and ingredients to your account or the local browser storage
@@ -30,7 +30,7 @@ To clone and run this application, you'll need [Git](https://git-scm.com) and [N
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/alicjalukaszewska/cooking-notes.git
+$ git clone https://github.com/alicjapietrzykowska/cooking-notes.git
 # Go into the repository
 $ cd cooking-notes
 # Install dependencies
@@ -46,7 +46,7 @@ To run this application with Docker, you'll need [Docker](https://docs.docker.co
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/alicjalukaszewska/cooking-notes.git
+$ git clone https://github.com/alicjapietrzykowska/cooking-notes.git
 # Go into the repository
 $ cd cooking-notes
 # Run Dockerfile
